@@ -1,3 +1,4 @@
+buildFuture = true
 baseURL = 'https://example.org/'
 languageCode = 'zh-cn'
 title = '我的运维之路'
