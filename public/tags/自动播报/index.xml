@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Posts on Water</title>
-        <link>http://localhost:1313/posts/</link>
-        <description>Recent content in Posts on Water</description>
+        <title>自动播报 on Water</title>
+        <link>http://localhost:1313/tags/%E8%87%AA%E5%8A%A8%E6%92%AD%E6%8A%A5/</link>
+        <description>Recent content in 自动播报 on Water</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 18 Dec 2025 09:38:14 +0800</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 18 Dec 2025 09:38:14 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%87%AA%E5%8A%A8%E6%92%AD%E6%8A%A5/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>📅 2025-12-18 每日天气播报</title>
         <link>http://localhost:1313/posts/weather-2025-12-18/</link>
         <pubDate>Thu, 18 Dec 2025 09:38:14 +0800</pubDate>
@@ -20,14 +20,6 @@
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;em&gt;(本文章由 GitHub Actions 自动抓取并发布)&lt;/em&gt;&lt;/p&gt;
 </description>
-        </item>
-        <item>
-        <title>Hello</title>
-        <link>http://localhost:1313/posts/hello/</link>
-        <pubDate>Wed, 17 Dec 2025 20:40:03 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/hello/</guid>
-        <description></description>
         </item>
         
     </channel>

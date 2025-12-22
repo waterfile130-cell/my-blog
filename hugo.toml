@@ -1,10 +1,41 @@
-buildFuture = true
 baseURL = 'https://example.org/'
 languageCode = 'zh-cn'
-title = '欢迎来到die的网站'
-theme = "PaperMod"
+title = 'Water'
+theme = 'hugo-theme-stack'
 
 [params]
-  defaultTheme = "auto"
-  # 首页显示的文章数
-  Paginate = 5
+    description = "这是一个用 Hugo + Stack 搭建的运维博客"
+    defaultTheme = "auto"
+    
+    [params.sidebar]
+        emoji = "🐧"
+        subtitle = "运维工程师 / 各种折腾"
+        
+        [params.sidebar.avatar]
+            enabled = true
+            local = true
+            src = "img/avatar.jpg" 
+
+    [params.social]
+        [params.social.github]
+            username = "waterfile130-cell"
+            icon = "github"
+    
+    [params.article]
+        description = true
+        [params.article.license]
+            enabled = true
+            default = true
+
+# --- 菜单栏 (暂时去掉了 icon 设置，保证不报错) ---
+[[menu.main]]
+    identifier = "home"
+    name = "首页"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 2

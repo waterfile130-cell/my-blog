@@ -2,17 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/posts/weather-2025-12-18/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E5%A4%A9%E6%B0%94/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E8%87%AA%E5%8A%A8%E6%92%AD%E6%8A%A5/</loc>
+    <lastmod>2025-12-18T09:38:14+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/hello/</loc>
     <lastmod>2025-12-17T20:40:03+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-12-17T20:40:03+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-12-17T20:40:03+08:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/categories/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>
