@@ -12,8 +12,7 @@
         <pubDate>Tue, 23 Dec 2025 10:14:01 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/whats-keepalived/</guid>
-        <description>&lt;img src="http://localhost:1313/img/cover.jpg" alt="Featured image of post keepalived" /&gt;&lt;h2 id=&#34;这里开始写正文&#34;&gt;这里开始写正文
-&lt;/h2&gt;&lt;h3 id=&#34;1-什么是高可用-high-availability-ha&#34;&gt;1. 什么是高可用 (High Availability, HA)？
+        <description>&lt;h3 id=&#34;1-什么是高可用-high-availability-ha&#34;&gt;1. 什么是高可用 (High Availability, HA)？
 &lt;/h3&gt;&lt;p&gt;在 IT 领域，&amp;lsquo;高可用&amp;rsquo;指的是系统在面对硬件故障、软件错误或网络问题时，仍能长时间持续提供服务的能力。&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&#39;目标&#39;：消除单点故障（SPOF）。如果一台服务器挂了，另一台能立马顶上。
 &#39;衡量标准&#39;：通常用“几个9”来衡量，比如 99.99%（意味着一年停机时间不超过 52 分钟）。

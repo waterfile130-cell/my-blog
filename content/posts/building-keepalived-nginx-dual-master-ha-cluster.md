@@ -1,7 +1,7 @@
 ---
 title: "Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)"
 date: 2025-12-23
-image: /images/1.jpg
+image:
 categories: [Tech, DevOps, Linux, High Availability]
 tags: [nginx, keepalived, ubuntu, load-balancing]
 ---

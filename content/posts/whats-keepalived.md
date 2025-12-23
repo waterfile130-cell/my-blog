@@ -2,7 +2,7 @@
 title: "keepalived"
 description: "keepalived基础知识"
 date: 2025-12-23T10:14:01.6224284+08:00
-image: img/1.jpg
+image:
 tags:
     - Linux
     - 运维
