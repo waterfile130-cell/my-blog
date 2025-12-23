@@ -9,7 +9,7 @@ theme = 'hugo-theme-stack'
     
     [params.sidebar]
         emoji = "🐧"
-        subtitle = "运维工程师 / 各种折腾"
+        subtitle = "运维 /water "
         
         [params.sidebar.avatar]
             enabled = true
