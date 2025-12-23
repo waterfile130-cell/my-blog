@@ -2,7 +2,7 @@
 title: "keepalived"
 description: "keepalived基础知识"
 date: 2025-12-23T10:14:01.6224284+08:00
-image: img/cover.jpg
+image: img/1.jpg
 tags:
     - Linux
     - 运维
@@ -13,7 +13,6 @@ draft: false
 
 
 ---
-## 这里开始写正文
 
 ### 1. 什么是高可用 (High Availability, HA)？
 

@@ -1,0 +1,21 @@
+/* 修改背景图 */
+body {
+    /* 替换下面的链接为你喜欢的图片地址 */
+    background-image: url('/images/2.jpg'); 
+    background-size: cover;       /* 铺满全屏 */
+    background-attachment: fixed; /* 背景固定，滚动时不动 */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 让中间的文章卡片稍微透明一点，不然挡住背景了 */
+.article-list--tile article, .main-article {
+    background: rgba(255, 255, 255, 0.9) !important; /* 白天模式半透明 */
+}
+
+/* 如果是深色模式 (Stack 自带深色) */
+[data-scheme="dark"] .article-list--tile article, 
+[data-scheme="dark"] .main-article {
+    background: rgba(44, 44, 44, 0.85) !important; /* 深色模式半透明 */
+    backdrop-filter: blur(10px); /*以此增加磨砂玻璃效果 */
+}
