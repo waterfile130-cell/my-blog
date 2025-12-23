@@ -1,7 +1,7 @@
 /* 站点自定义 SCSS - 仅用于覆盖主页背景 */
 /* 站点自定义 SCSS - 仅用于覆盖主页背景 */
-body.home {
-    background-image: url('/images/2.jpg');
+body {
+    background-image: url('/images/2.jpg') !important;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
