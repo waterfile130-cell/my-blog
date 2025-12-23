@@ -6,7 +6,7 @@ theme = 'hugo-theme-stack'
 [params]
     description = "这是一个用 Hugo + Stack 搭建的运维博客"
     defaultTheme = "auto"
-    
+    mainSections = ["posts"] 
     [params.sidebar]
         emoji = "🐧"
         subtitle = "运维 /water "
