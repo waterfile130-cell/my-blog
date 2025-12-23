@@ -1,7 +1,3 @@
-
----
-
-```markdown
 ---
 title: "Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)"
 date: 2025-12-23
