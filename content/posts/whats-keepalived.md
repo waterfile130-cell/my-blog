@@ -8,7 +8,7 @@ tags:
     - 运维
     - 高可用集群
 categories:
-    - 技术笔记
+    - Tech
 draft: false
 
 
