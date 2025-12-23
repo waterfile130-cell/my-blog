@@ -1,0 +1,23 @@
+<style>
+/* 这里直接写 CSS，不需要 SCSS 编译，绝对生效 */
+
+body {
+    /* 强制背景图 */
+    background-image: url('/images/2.jpg') !important;
+    background-size: cover !important;
+    background-position: center top !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    
+    /* 核心：把body自带的底色变成透明 */
+    background-color: transparent !important;
+}
+
+/* 针对 Stack 主题深色模式的特殊处理 */
+:root[data-scheme="dark"] body {
+    background-color: transparent !important;
+}
+
+/* 调试用：如果背景图还不出，至少这行会让文字变红，证明文件生效了 */
+/* body { color: red !important; } */
+</style>
