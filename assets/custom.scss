@@ -1,31 +1,32 @@
-/* 修改背景图 */
+/* 站点自定义 SCSS - 仅用于覆盖主页背景 */
+/* 站点自定义 SCSS - 仅用于覆盖主页背景 */
 body.home {
-    /* 主页背景图，来自 /static/images/2.jpg */
     background-image: url('/images/2.jpg');
-    background-size: cover;       /* 铺满全屏 */
-    background-attachment: fixed; /* 背景固定，滚动时不动 */
+    background-size: cover;
+    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* 让中间的文章卡片稍微透明一点，不然挡住背景了 */
-.article-list--tile article, .main-article {
-    background: rgba(255, 255, 255, 0.5) !important; /* 白天模式半透明 */
+/* --- 核心修改：让首页所有文章卡片变透明 --- */
+
+/* 1. 针对所有文章卡片（不管是列表还是网格） */
+.article-list article, 
+.main-article {
+    /* 亮色模式：白色半透明 (0.5 = 50%透明) */
+    background: rgba(255, 255, 255, 0.5) !important;
+    
+    /* 加上毛玻璃模糊，让背景不至于太花影响阅读 */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* 可选：去掉卡片的阴影，让它看起来更平 */
+    box-shadow: none !important;
 }
 
-/* 如果是深色模式 (Stack 自带深色) */
-[data-scheme="dark"] .article-list--tile article, 
+/* 2. 针对暗黑模式 (Dark Mode) */
+[data-scheme="dark"] .article-list article, 
 [data-scheme="dark"] .main-article {
-    background: rgba(44, 44, 44, 0.5) !important; /* 深色模式半透明 */
-    backdrop-filter: blur(10px); /*以此增加磨砂玻璃效果 */
-}
-/* 让文章卡片背景变透明 */
-.article-wrapper {
-    /* rgba(红, 绿, 蓝, 透明度) */
-    /* 这里的 29, 30, 32 是深色模式常用的黑灰色，0.6 表示 60% 不透明 */
-    background-color: rgba(29, 30, 32, 0.5) !important;
-    
-    /* 可选：加一点高斯模糊（毛玻璃效果），看起来更高级 */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* 暗色模式：深黑灰半透明 */
+    background: rgba(40, 40, 40, 0.6) !important;
 }
