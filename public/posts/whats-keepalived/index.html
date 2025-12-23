@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="keepalived基础知识">
+<title>keepalived</title>
+
+<link rel='canonical' href='http://localhost:1313/posts/whats-keepalived/'>
+
+<link rel="stylesheet" href="/scss/style.min.3f3c75c76e42f356cf1a9a710ab04e98cb891436631f220033e8a13c2923e746.css"><meta property='og:title' content="keepalived">
+<meta property='og:description' content="keepalived基础知识">
+<meta property='og:url' content='http://localhost:1313/posts/whats-keepalived/'>
+<meta property='og:site_name' content='Water'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='运维' /><meta property='article:tag' content='高可用集群' /><meta property='article:published_time' content='2025-12-23T10:14:01&#43;08:00'/><meta property='article:modified_time' content='2025-12-23T10:14:01&#43;08:00'/><meta property='og:image' content='http://localhost:1313/img/cover.jpg' />
+<meta name="twitter:title" content="keepalived">
+<meta name="twitter:description" content="keepalived基础知识"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/img/cover.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_27c49a136038ecf9.jpg" width="300"
+                            height="285" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🐧</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Water</a></h1>
+            <h2 class="site-description">运维工程师 / 各种折腾</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/whats-keepalived/">
+                
+                    <img src="/img/cover.jpg" loading="lazy" alt="Featured image of post keepalived" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" >
+                技术笔记
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/whats-keepalived/">keepalived</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            keepalived基础知识
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2025-12-23T10:14:01&#43;08:00'>Dec 23, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="这里开始写正文">这里开始写正文
+</h2><h3 id="1-什么是高可用-high-availability-ha">1. 什么是高可用 (High Availability, HA)？
+</h3><p>在 IT 领域，&lsquo;高可用&rsquo;指的是系统在面对硬件故障、软件错误或网络问题时，仍能长时间持续提供服务的能力。</p>
+<pre><code>'目标'：消除单点故障（SPOF）。如果一台服务器挂了，另一台能立马顶上。
+'衡量标准'：通常用“几个9”来衡量，比如 99.99%（意味着一年停机时间不超过 52 分钟）。
+</code></pre>
+<p>&lsquo;Keepalived&rsquo; 就是Linux下一个轻量级的高可用解决方案，它最初是为 LVS（Linux Virtual Server）设计的，用来管理并监控负载均衡集群中的服务节点状态。</p>
+<h3 id="2-核心基石vrrp-协议">2. 核心基石：VRRP 协议
+</h3><p>要懂 Keepalived，必须先懂 &lsquo;VRRP&rsquo; (Virtual Router Redundancy Protocol，虚拟路由器冗余协议)。Keepalived 就是用 C 语言实现了 VRRP 协议。</p>
+<h4 id="vrrp-的工作原理">VRRP 的工作原理：
+</h4><p>想象一下，你有一群路由器，我们想让它们在外面看起来像&rsquo;一台&rsquo;超级路由器。</p>
+<ol>
+<li>&lsquo;虚拟 IP (VIP)&rsquo;：这是对外提供服务的 IP 地址。客户端只连接这个 IP，不知道后面具体是哪台机器。</li>
+<li>&lsquo;角色&rsquo;：
+&rsquo;   &lsquo;Master (主节点)&rsquo;：真正持有 VIP，负责处理流量，并周期性地向 Backup 发送“我还活着”的广播包（心跳）。
+&rsquo;   &lsquo;Backup (备节点)&rsquo;：监听 Master 的广播。</li>
+<li>&lsquo;选举与故障切换 (Failover)&rsquo;：
+&rsquo;   Backup 如果在一定时间内（通常是3秒）收不到 Master 的心跳包，就认为 Master 挂了。
+&rsquo;   Backup 根据优先级（Priority）选举出新的 Master，接管 VIP。
+&rsquo;   一旦旧 Master 恢复，根据配置（抢占模式），它可能会重新夺回 VIP。</li>
+</ol>
+<h3 id="3-keepalived-基础知识">3. Keepalived 基础知识
+</h3><p>Keepalived 主要有两个核心功能：</p>
+<ol>
+<li>&lsquo;VRRP 高可用&rsquo;：也就是上面说的，管理 VIP 在多台服务器之间漂移。</li>
+<li>&lsquo;健康检查 (Health Checking)&rsquo;：
+&rsquo;   它可以检查后端真实服务器（如 Nginx、MySQL）是否活着。
+&rsquo;   &lsquo;Layer 3 (IP层)&rsquo;：通过 ICMP (Ping) 检查。
+&rsquo;   &lsquo;Layer 4 (TCP端口层)&rsquo;：检查端口（如 80, 3306）是否通。
+&rsquo;   &lsquo;Layer 7 (应用层)&rsquo;：通过自定义脚本检查服务状态（比如 Nginx 进程还在，但网页返回 500 错误）。</li>
+</ol>
+<p>&lsquo;Keepalived 的组件结构&rsquo;：
+&rsquo;   &lsquo;Checkers&rsquo;：负责真实服务器的健康检查。
+&rsquo;   &lsquo;VRRP Stack&rsquo;：处理 VRRP 协议的广播和选举。
+&rsquo;   &lsquo;Netlink Reflector&rsquo;：与 Linux 内核交互，负责在网卡上添加或删除 VIP。</p>
+<h3 id="4-缺省路由-default-route-与-keepalived">4. 缺省路由 (Default Route) 与 Keepalived
+</h3><p>&lsquo;角度一：客户端/下游设备的缺省网关&rsquo;
+&rsquo;   &lsquo;场景&rsquo;：Keepalived 用在路由器或防火墙的高可用上。
+&rsquo;   &lsquo;作用&rsquo;：局域网内的电脑需要上网，它们的&rsquo;缺省路由（网关）&lsquo;指向的是 VRRP 生成的 &lsquo;VIP&rsquo;。
+&rsquo;   &lsquo;效果&rsquo;：当主路由器挂掉，VIP 漂移到备用路由器，局域网内的电脑无感知，依然通过 VIP 上网。</p>
+<p>&lsquo;角度二：服务器本身的路由&rsquo;
+&rsquo;   &lsquo;场景&rsquo;：Keepalived 部署在服务器上（如 Nginx 负载均衡）。
+&rsquo;   &lsquo;问题&rsquo;：Keepalived 配置文件中有一个 <code>virtual_routes</code> 区块。
+&rsquo;   &lsquo;作用&rsquo;：当这台机器变成 Master 时，可以自动添加一条路由规则；当它变成 Backup 时，自动删除。
+&rsquo;   &lsquo;实战&rsquo;：通常在服务器模式下我们很少配 <code>virtual_routes</code>，只配 <code>virtual_ipaddress</code> 就够了。但在复杂的双网卡、跨网段环境中，可能需要用它来指定回包的路由。</p>
+<h3 id="5-高可用方式-ha-modes">5. 高可用方式 (HA Modes)
+</h3><p>Keepalived 常见的架构模式主要有两种：</p>
+<h4 id="模式一主备模式-active-standby--最常用最简单">模式一：主备模式 (Active-Standby) —— 最常用、最简单
+</h4><pre><code>'   '架构'：节点 A (Master) + 节点 B (Backup)。
+'   'VIP'：只有 1 个 VIP。
+'   '状态'：
+'       正常时：VIP 在节点 A 上，所有流量只走 A。节点 B 闲置（作为冷备）。
+'       故障时：VIP 漂移到 B，流量走 B。
+'   '优点'：配置简单，极少出现数据不一致。
+'   ''缺点''：浪费了一台服务器的资源（节点 B 平时没事干）。
+</code></pre>
+<h4 id="模式二双主模式-active-active--双主双备">模式二：双主模式 (Active-Active) / 双主双备
+</h4><pre><code>'   ''架构''：节点 A + 节点 B。
+'   ''VIP''：配置 ''2 个 VIP'' (VIP1, VIP2)。
+'   ''配置逻辑''：
+    '   对于 VIP1：节点 A 是 Master，节点 B 是 Backup。
+    '   对于 VIP2：节点 B 是 Master，节点 A 是 Backup。
+'   ''流量分配''：通过 DNS 轮询，将一半用户解析到 VIP1，一半解析到 VIP2。
+'   ''状态''：两台机器同时工作。如果 A 挂了，VIP1 跑到 B 上，此时 B 拥有两个 VIP，承担所有流量。
+'   ''优点''：资源利用率高。
+</code></pre>
+<h3 id="6-实战配置示例-主备模式">6. 实战配置示例 (主备模式)
+</h3><p>假设我们要对两台 Nginx 负载均衡器做高可用。
+&rsquo;   Master IP: 192.168.1.10
+&rsquo;   Backup IP: 192.168.1.11
+&rsquo;   &lsquo;&lsquo;VIP: 192.168.1.100&rsquo;&rsquo;</p>
+<h4 id="a-master-节点配置-etckeepalivedkeepalivedconf">A. Master 节点配置 (<code>/etc/keepalived/keepalived.conf</code>)
+</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">global_defs</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">router_id</span> <span style="color:#e6db74">LVS_DEVEL_MASTER</span>  <span style="color:#75715e"># 标识本节点的ID，随便写但要唯一
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义一个检测脚本，用来检查 Nginx 是否活着
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#e6db74">vrrp_script</span> <span style="color:#e6db74">check_nginx</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">script</span> <span style="color:#e6db74">&#34;/etc/keepalived/check_nginx.sh&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">interval</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 每2秒检测一次
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">weight</span> <span style="color:#e6db74">-20</span>  <span style="color:#75715e"># 如果检测失败，权重减少20
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">vrrp_instance</span> <span style="color:#e6db74">VI_1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">state</span> <span style="color:#e6db74">MASTER</span>          <span style="color:#75715e"># 初始状态：Master
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">interface</span> <span style="color:#e6db74">eth0</span>        <span style="color:#75715e"># 绑定VIP的网卡
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">virtual_router_id</span> <span style="color:#ae81ff">51</span>  <span style="color:#75715e"># VRID，主备必须一致！
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">priority</span> <span style="color:#ae81ff">100</span>          <span style="color:#75715e"># 优先级，Master要比Backup高
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">advert_int</span> <span style="color:#ae81ff">1</span>          <span style="color:#75715e"># 广播间隔1秒
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">authentication</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">auth_type</span> <span style="color:#e6db74">PASS</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">auth_pass</span> <span style="color:#ae81ff">1111</span>    <span style="color:#75715e"># 密码，主备必须一致
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">virtual_ipaddress</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">192.168.1.100</span>     <span style="color:#75715e">#这就是 VIP
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">track_script</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">check_nginx</span>       <span style="color:#75715e"># 调用上面的检测脚本
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div><h4 id="b-backup-节点配置">B. Backup 节点配置
+</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">global_defs</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">router_id</span> <span style="color:#e6db74">LVS_DEVEL_BACKUP</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">vrrp_script</span> <span style="color:#e6db74">check_nginx</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">script</span> <span style="color:#e6db74">&#34;/etc/keepalived/check_nginx.sh&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">interval</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">weight</span> <span style="color:#e6db74">-20</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">vrrp_instance</span> <span style="color:#e6db74">VI_1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">state</span> <span style="color:#e6db74">BACKUP</span>          <span style="color:#75715e"># 初始状态：Backup
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">interface</span> <span style="color:#e6db74">eth0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">virtual_router_id</span> <span style="color:#ae81ff">51</span>  <span style="color:#75715e"># 必须和Master一样
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">priority</span> <span style="color:#ae81ff">90</span>           <span style="color:#75715e"># 优先级必须比Master低
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">advert_int</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">authentication</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">auth_type</span> <span style="color:#e6db74">PASS</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">auth_pass</span> <span style="color:#ae81ff">1111</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">virtual_ipaddress</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">192.168.1.100</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">track_script</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">check_nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div><h4 id="c-关键点健康检测脚本">C. 关键点：健康检测脚本
+</h4><p>Keepalived 进程活着不代表业务活着。如果 Nginx 挂了，Keepalived 还在，VIP 就不会漂移，用户访问就会报错。所以必须配合脚本：</p>
+<p>脚本逻辑：&lsquo;如果 Nginx 进程不存在，就尝试重启 Nginx；如果还不行，就杀掉 Keepalived 进程（或者降低权重），触发 VIP 漂移。&rsquo;</p>
+<h3 id="7-常见问题脑裂-split-brain">7. 常见问题：脑裂 (Split Brain)
+</h3><p>&lsquo;&lsquo;什么是脑裂？&rsquo;&rsquo;
+主备之间的心跳线断了（比如防火墙挡住了 VRRP 组播包，或者网线断了），Backup 以为 Master 死了，于是强行接管 VIP。结果是：&lsquo;&lsquo;Master 和 Backup 都有 VIP&rsquo;&rsquo;。</p>
+<p>&lsquo;&lsquo;后果&rsquo;&rsquo;：
+IP 冲突，数据写入混乱，用户访问时通时断。</p>
+<p>&lsquo;&lsquo;如何预防？&rsquo;&rsquo;</p>
+<ol>
+<li>防火墙允许 VRRP 协议（IP 协议号 112）通过。</li>
+<li>使用串行电缆或多条线路做心跳冗余。</li>
+<li>脚本检测：一旦发现自己是 Master 但 Ping 不通网关，自动降级。</li>
+</ol>
+<h3 id="总结">总结
+</h3><pre><code>'   ''Keepalived'' = ''VRRP'' (抢 VIP) + ''Health Check'' (看病)。
+'   ''VRRP'' 让多台机器共享一个 ''VIP''，谁优先级高谁拿。
+'   ''缺省路由'' 在这里通常指客户端将 VIP 作为网关，或者 Keepalived 自身管理路由表。
+'   最稳的架构是 ''主备模式 (Master/Backup)''。
+'   一定要配置 '健康检测脚本'，确保应用挂了 VIP 能及时切换。
+</code></pre>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+            <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+        
+            <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/">高可用集群</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>true</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            Last updated on Dec 23, 2025 10:14 CST
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 Water
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.32.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.26b5af9ee14dfd2a3a2c1c2301ac6aca2c0c769e4894a791ec3dffc00878601a.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

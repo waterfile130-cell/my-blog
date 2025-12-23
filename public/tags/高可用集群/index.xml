@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Posts on Water</title>
-        <link>http://localhost:1313/posts/</link>
-        <description>Recent content in Posts on Water</description>
+        <title>高可用集群 on Water</title>
+        <link>http://localhost:1313/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</link>
+        <description>Recent content in 高可用集群 on Water</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 23 Dec 2025 10:14:01 +0800</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 23 Dec 2025 10:14:01 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>keepalived</title>
         <link>http://localhost:1313/posts/whats-keepalived/</link>
         <pubDate>Tue, 23 Dec 2025 10:14:01 +0800</pubDate>
@@ -168,51 +168,6 @@ IP 冲突，数据写入混乱，用户访问时通时断。&lt;/p&gt;
 &#39;   一定要配置 &#39;健康检测脚本&#39;，确保应用挂了 VIP 能及时切换。
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-        </item>
-        <item>
-        <title>My First Post</title>
-        <link>http://localhost:1313/posts/my-first-post/</link>
-        <pubDate>Mon, 22 Dec 2025 20:21:24 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/my-first-post/</guid>
-        <description>&lt;h2 id=&#34;draft-false---一定要确保这里是-false如果是-true-网页上是不显示的&#34;&gt;image:
-math: false
-license:
-hidden: false
-comments: true
-draft: false  &amp;lt;&amp;ndash; 一定要确保这里是 false，如果是 true 网页上是不显示的
-&lt;/h2&gt;&lt;h2 id=&#34;大家好&#34;&gt;大家好
-&lt;/h2&gt;&lt;p&gt;这是我用 Hugo + GitHub + Vercel 搭建的免费博客。&lt;/p&gt;
-&lt;h3 id=&#34;&#34;&gt;
-&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;怎么配置 Hugo 环境&lt;/li&gt;
-&lt;li&gt;怎么解决 GitHub 代理问题&lt;/li&gt;
-&lt;li&gt;TOML 配置文件不能重复写 params&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        </item>
-        <item>
-        <title>📅 2025-12-18 每日天气播报</title>
-        <link>http://localhost:1313/posts/weather-2025-12-18/</link>
-        <pubDate>Thu, 18 Dec 2025 09:38:14 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/weather-2025-12-18/</guid>
-        <description>&lt;h2 id=&#34;-机器人自动播报&#34;&gt;🤖 机器人自动播报
-&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;北京时间&lt;/strong&gt;：2025-12-18 09:38:14&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;今日天气&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Beijing: 🌫  -1°C&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;em&gt;(本文章由 GitHub Actions 自动抓取并发布)&lt;/em&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Hello</title>
-        <link>http://localhost:1313/posts/hello/</link>
-        <pubDate>Wed, 17 Dec 2025 20:40:03 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/hello/</guid>
-        <description></description>
         </item>
         
     </channel>
