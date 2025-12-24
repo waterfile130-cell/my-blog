@@ -21,3 +21,51 @@ body {
 /* 调试用：如果背景图还不出，至少这行会让文字变红，证明文件生效了 */
 /* body { color: red !important; } */
 </style>
+<style>
+/* ... 你之前的背景图代码保留在上面 ... */
+
+/* =========================================================
+   卡片透明度调整
+   ========================================================= */
+
+/* 1. 针对【首页】的文章卡片 */
+.article-list article {
+    /* 背景色：白色，透明度 0.6 (数值 0-1，越小越透) */
+    background: rgba(255, 255, 255, 0.6) !important;
+    
+    /* 关键：毛玻璃效果 (让背景模糊一点，这样文字才看得清) */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    
+    /* 可选：去掉卡片原本的阴影，看起来更扁平 */
+    box-shadow: none !important; 
+}
+
+/* 2. 针对【文章详情页】的大卡片 */
+.main-article {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* 3. 针对【深色模式】(Dark Mode) 的特殊处理
+   因为你之前截图里是深色模式，必须加这段，否则深色模式下还是黑乎乎的 
+*/
+:root[data-scheme="dark"] .article-list article,
+:root[data-scheme="dark"] .main-article {
+    /* 深色背景，透明度 0.5 */
+    background: rgba(40, 40, 40, 0.5) !important;
+}
+
+/* 4. (可选) 如果左侧侧边栏也要透明，把下面的注释打开 */
+/* 
+.widget {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+}
+:root[data-scheme="dark"] .widget {
+    background: rgba(40, 40, 40, 0.5) !important;
+}
+*/
+
+</style>
