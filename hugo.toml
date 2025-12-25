@@ -7,7 +7,6 @@ theme = 'hugo-theme-stack'
     description = "这是一个用 Hugo + Stack 搭建的运维博客"
     defaultTheme = "auto"
     mainSections = ["posts"] 
-    customCSS = ["scss/custom.scss"]
     [params.sidebar]
         emoji = "🐧"
         subtitle = "运维 /water "
@@ -40,3 +39,8 @@ theme = 'hugo-theme-stack'
     name = "归档"
     url = "/archives/"
     weight = 2
+
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true

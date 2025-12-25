@@ -1,20 +1,24 @@
+
 ---
-
-# 🚀 Ansible 实战笔记：构建自动化运维集群（Nginx + HAProxy + Roles）
-
-> **摘要**：本文记录了我从零开始学习 Ansible 的完整过程。在一个由 Rocky Linux 和 Ubuntu 组成的混合环境中，实现了 SSH 免密互信、Nginx 批量部署、差异化配置自动分发、HAProxy 负载均衡集群搭建，以及使用 Roles 重构代码和 Vault 加密敏感数据。
-
+title: "🚀 Ansible 笔记：构建自动化运维集群（Nginx + HAProxy + Roles）"
+summary: "本文记录了我从零开始学习 Ansible 的完整过程。在一个由 Rocky Linux 和 Ubuntu 组成的混合环境中，实现了 SSH 免密互信、Nginx 批量部署、差异化配置自动分发、HAProxy 负载均衡集群搭建，以及使用 Roles 重构代码和 Vault 加密敏感数据。"
+date: 2025-12-25T14:54:18+08:00
+draft: false
 ---
 
 ## 1. 实验环境规划
 
 我使用了 3 台虚拟机，操作系统涵盖了 RHEL 系和 Debian 系，以测试 Ansible 对异构系统的兼容性。
 
-| 主机名 | IP 地址 | 角色 | 操作系统 | 备注 |
-| :--- | :--- | :--- | :--- | :--- |
-| **Rocky-12** | `10.0.0.12` | **控制节点 (Ansible Server)**<br>负载均衡器 (HAProxy) | Rocky Linux 9 | **指挥官**，所有命令在此执行 |
-| **Ubuntu-13** | `10.0.0.13` | 被控节点 (Web Server) | Ubuntu 24.04 | 运行 Nginx |
-| **Ubuntu-16** | `10.0.0.16` | 被控节点 (Web Server) | Ubuntu 24.04 | 运行 Nginx |
+### 1. 实验环境规划
+
+我使用了 3 台虚拟机，操作系统涵盖了 RHEL 系和 Debian 系，以测试 Ansible 对异构系统的兼容性。
+
+| 主机名          | IP 地址    | 角色                                        | 操作系统       | 备注                     |
+|-----------------|------------|---------------------------------------------|----------------|--------------------------|
+| **Rocky-12**    | 10.0.0.12 | **控制节点 (Ansible Server)**<br>**负载均衡器 (HAProxy)** | Rocky Linux 9  | **指挥官**，所有命令在此执行 |
+| **Ubuntu-13**   | 10.0.0.13 | 被控节点 (Web Server)                       | Ubuntu 24.04   | 运行 Nginx               |
+| **Ubuntu-16**   | 10.0.0.16 | 被控节点 (Web Server)                       | Ubuntu 24.04   | 运行 Nginx               |
 
 ---
 
