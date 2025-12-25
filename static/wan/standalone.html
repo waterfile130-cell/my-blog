@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/wan/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Teacher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Import Map for Google GenAI -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    }
+  }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+    .handwriting {
+      font-family: 'Ma Shan Zheng', cursive;
+    }
+    
+    /* Animation Keyframes */
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .animate-heartbeat {
+      animation: heartbeat 2s infinite ease-in-out;
+    }
+    
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Bubble Floating Animation with Drift */
+    @keyframes bubbleFloat {
+      0% {
+        opacity: 0;
+        transform: translate(0, 50px) scale(0.5);
+      }
+      10% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      85% {
+        opacity: 1;
+        transform: translate(var(--drift), -150px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--drift) * 1.2), -200px) scale(0.5);
+      }
+    }
+
+    /* Fountain Shoot Animation */
+    @keyframes fountainShoot {
+      0% {
+        transform: translate(-50%, 0) scale(0.5);
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--tx)), -40vh) scale(1.5);
+      }
+      100% {
+        transform: translate(calc(-50% + var(--tx) * 1.5), -30vh) scale(1);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio -->
+  <audio id="bgMusic" loop autoplay muted>
+    <source src="https://cdn.pixabay.com/audio/2023/01/30/audio_af0a916738.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Mute Button -->
+  <button 
+    id="muteBtn"
+    class="fixed top-4 right-4 z-50 p-3 rounded-full bg-white/40 backdrop-blur-md shadow-md text-pink-600 hover:bg-white/70 transition-all focus:outline-none cursor-pointer"
+    title="Play Music"
+  >
+    <!-- Mute Icon (Default) -->
+    <svg id="iconMuted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.75-4.75h.008v12h-.008L9 17.25c-.75 0-1.5-.75-1.5-1.5v-7.5c0-.75.75-1.5 1.5-1.5Z" />
+    </svg>
+    <!-- Sound Icon (Hidden) -->
+    <svg id="iconSound" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72h.008v12h-.008L6.75 15.75c-.75 0-1.5-.75-1.5-1.5v-7.5c0-.75.75-1.5 1.5-1.5Z" />
+    </svg>
+  </button>
+
+  <!-- Containers -->
+  <div id="danmakuContainer" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+  <div id="confettiContainer" class="absolute inset-0 z-50 pointer-events-none overflow-hidden"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4">
+    
+    <div class="glass-panel p-8 md:p-12 rounded-3xl shadow-2xl text-center max-w-lg w-full transform transition-all duration-500 hover:scale-105 animate-heartbeat border-2 border-white/50">
+      
+      <!-- Avatar -->
+      <div class="mb-6 relative inline-block">
+        <div class="w-32 h-32 bg-gradient-to-br from-pink-100 to-white rounded-full flex items-center justify-center shadow-lg mx-auto text-6xl ring-4 ring-white/50">
+          🎂
+        </div>
+        <div class="absolute -top-2 -right-2 text-4xl animate-bounce" style="animation-delay: 0.5s">🎈</div>
+        <div class="absolute -bottom-2 -left-2 text-4xl animate-bounce" style="animation-delay: 1s">🎉</div>
+      </div>
+
+      <h1 class="text-4xl md:text-6xl text-pink-600 font-bold mb-4 handwriting drop-shadow-sm">
+        祝老师<br/>生日快乐！
+      </h1>
+
+      <p class="text-gray-700 text-lg md:text-xl font-medium mb-8 leading-relaxed">
+        愿你暴富，愿你被爱<br/>
+        愿你好运都在路上<br/>
+        不管几岁，快乐万岁<br/>
+        敬自由，敬快乐，敬你 🥂
+      </p>
+
+      <!-- Buttons -->
+      <div class="flex justify-center gap-8 mt-6">
+          <button id="btnCake" class="group relative transform transition-all duration-200 active:scale-90 focus:outline-none cursor-pointer" title="来块蛋糕">
+            <div class="text-5xl group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-md">🍰</div>
+            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-black/10 rounded-full blur-sm group-hover:w-10 group-hover:bg-black/20 transition-all"></div>
+          </button>
+
+          <button id="btnGift" class="group relative transform transition-all duration-200 active:scale-90 focus:outline-none cursor-pointer" title="拆礼物">
+            <div class="text-5xl group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-md">🎁</div>
+            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-black/10 rounded-full blur-sm group-hover:w-10 group-hover:bg-black/20 transition-all"></div>
+          </button>
+          
+          <button id="btnCheers" class="group relative transform transition-all duration-200 active:scale-90 focus:outline-none cursor-pointer" title="干杯">
+            <div class="text-5xl group-hover:-translate-y-2 transition-transform duration-300 drop-shadow-md">🥂</div>
+            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-black/10 rounded-full blur-sm group-hover:w-10 group-hover:bg-black/20 transition-all"></div>
+          </button>
+      </div>
+      
+      <div class="mt-6 text-sm text-pink-500/70 font-bold tracking-widest uppercase">
+         CLICK THE ICONS
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script type="module">
+    import { GoogleGenAI, Type } from "@google/genai";
+
+    // ---------------------------------------------------------
+    // CONFIGURATION
+    // ---------------------------------------------------------
+    // To enable AI generation in this standalone file, paste your API key below.
+    const API_KEY = ""; 
+    
+    const defaultWishes = [
+      '苟富贵勿相忘', '祝你暴富', '永远18岁', '颜值逆天', '桃花旺旺',
+      '吃不胖体质', '心想事成', '必须开心', '搞钱要紧', '宇宙最美',
+      '人见人爱', '好运爆棚', '未来可期', '发财被爱', '光芒万丈'
+    ];
+
+    // ---------------------------------------------------------
+    // STATE
+    // ---------------------------------------------------------
+    let wishes = [...defaultWishes];
+    let isMuted = true;
+    let nextId = 0;
+
+    // ---------------------------------------------------------
+    // DOM ELEMENTS
+    // ---------------------------------------------------------
+    const bgMusic = document.getElementById('bgMusic');
+    const muteBtn = document.getElementById('muteBtn');
+    const iconMuted = document.getElementById('iconMuted');
+    const iconSound = document.getElementById('iconSound');
+    const danmakuContainer = document.getElementById('danmakuContainer');
+    const confettiContainer = document.getElementById('confettiContainer');
+
+    // ---------------------------------------------------------
+    // AUDIO LOGIC
+    // ---------------------------------------------------------
+    bgMusic.volume = 0.3;
+
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      bgMusic.muted = isMuted;
+      
+      if (isMuted) {
+        iconMuted.classList.remove('hidden');
+        iconSound.classList.add('hidden');
+        muteBtn.title = "Play Music";
+      } else {
+        iconMuted.classList.add('hidden');
+        iconSound.classList.remove('hidden');
+        muteBtn.title = "Mute Music";
+        bgMusic.play().catch(console.error);
+      }
+    });
+
+    // ---------------------------------------------------------
+    // AI LOGIC
+    // ---------------------------------------------------------
+    async function fetchMoreWishes() {
+      if (!API_KEY) {
+        console.log("No API Key provided, using default wishes.");
+        return;
+      }
+
+      try {
+        const ai = new GoogleGenAI({ apiKey: API_KEY });
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: 'Generate 15 short, funny, witty, and affectionate birthday wishes in Chinese suitable for a very close best friend. The tone should be playful, internet-slang friendly, and warm. Max 10 characters per wish.',
+          config: {
+            responseMimeType: 'application/json',
+            responseSchema: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING }
+            }
+          }
+        });
+
+        const text = response.text;
+        if (text) {
+          const newWishes = JSON.parse(text);
+          wishes = [...wishes, ...newWishes];
+        }
+      } catch (error) {
+        console.error('Error fetching wishes:', error);
+      }
+    }
+
+    // ---------------------------------------------------------
+    // DANMAKU LOGIC
+    // ---------------------------------------------------------
+    function createBubble() {
+      const text = wishes[Math.floor(Math.random() * wishes.length)];
+      
+      const div = document.createElement('div');
+      div.innerText = text;
+      div.className = "absolute font-bold px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm shadow-sm";
+      
+      // Random Positioning
+      let left = Math.random() * 90;
+      let top = Math.random() * 90;
+      if (left > 25 && left < 75 && top > 30 && top < 70) {
+        if (Math.random() > 0.5) left = left < 50 ? Math.random() * 20 : 80 + Math.random() * 15;
+        else top = top < 50 ? Math.random() * 20 : 80 + Math.random() * 15;
+      }
+      
+      // Visuals
+      const colors = ['#FF6B6B', '#FF8E53', '#4ECDC4', '#45B7D1', '#9B59B6', '#3498DB', '#E67E22', '#2ECC71', '#FF007F', '#00E5FF'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      const sizes = ['0.8rem', '1rem', '1.2rem', '1.5rem', '1.8rem', '2rem']; 
+      const fontSize = sizes[Math.floor(Math.random() * sizes.length)];
+      
+      const rotation = (Math.random() * 40) - 20;
+      const durationVal = Math.random() * 4 + 4; // 4-8s
+      const driftVal = (Math.random() * 200) - 100;
+      
+      // Apply Styles
+      div.style.left = left + '%';
+      div.style.top = top + '%';
+      div.style.color = color;
+      div.style.fontSize = fontSize;
+      div.style.transform = `rotate(${rotation}deg)`;
+      div.style.setProperty('--drift', driftVal + 'px');
+      div.style.animation = `bubbleFloat ${durationVal}s ease-in-out forwards`;
+      
+      danmakuContainer.appendChild(div);
+      
+      // Cleanup
+      setTimeout(() => {
+        div.remove();
+      }, durationVal * 1000 + 100);
+    }
+
+    // Start Loop
+    setInterval(createBubble, 600);
+
+    // ---------------------------------------------------------
+    // CONFETTI LOGIC
+    // ---------------------------------------------------------
+    function triggerBurst(type) {
+      const count = 30;
+      let emoji = '';
+      if (type === 'cake') emoji = '🍰';
+      if (type === 'gift') emoji = '🎁';
+      if (type === 'cheers') emoji = '🥂';
+
+      for (let i = 0; i < count; i++) {
+        createConfettiPiece(emoji);
+      }
+    }
+
+    function createConfettiPiece(emoji) {
+      const div = document.createElement('div');
+      div.innerText = emoji;
+      div.className = "absolute";
+      div.style.left = "50%";
+      div.style.bottom = "15%";
+      div.style.opacity = "0";
+      
+      const durationVal = Math.random() * 1.5 + 1;
+      const spread = (Math.random() * 300) - 150;
+      const size = (Math.random() * 1.5 + 1.5) + 'rem';
+      
+      div.style.fontSize = size;
+      div.style.setProperty('--tx', spread + 'px');
+      div.style.animation = `fountainShoot ${durationVal}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      
+      confettiContainer.appendChild(div);
+      
+      setTimeout(() => {
+        div.remove();
+      }, durationVal * 1000);
+    }
+
+    // Bind Buttons
+    document.getElementById('btnCake').onclick = () => triggerBurst('cake');
+    document.getElementById('btnGift').onclick = () => triggerBurst('gift');
+    document.getElementById('btnCheers').onclick = () => triggerBurst('cheers');
+
+    // Init
+    fetchMoreWishes();
+
+  </script>
+</body>
+</html>
