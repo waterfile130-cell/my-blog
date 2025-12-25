@@ -187,7 +187,7 @@ body {
         
         // 【优化2】智能控制粒子数量
         // 无论屏幕多宽，粒子最多 100 个，最少 50 个。既保证密度，又锁死性能上限。
-        let pCount = Math.min(Math.floor(window.innerWidth / 25), 50
+        let pCount = Math.min(Math.floor(window.innerWidth / 25), 50);
         
         for (let i = 0; i < pCount; i++) {
             particles.push(new Particle());
