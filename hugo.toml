@@ -44,3 +44,15 @@ theme = 'hugo-theme-stack'
     [markup.goldmark]
         [markup.goldmark.renderer]
             unsafe = true
+
+[params.comments.giscus]
+    enable = true
+    repo = "waterfile130-cell/comments"  # 刚才填的仓库名
+    repoId = "R_kgDOQurkiQ"
+    category = "General"
+    categoryId = "DIC_kwDOQurkic4C0OlZ"
+    mapping = "pathname"
+    reactionsEnabled = true
+    emitMetadata = false
+    inputPosition = "bottom"
+    theme = "light"
