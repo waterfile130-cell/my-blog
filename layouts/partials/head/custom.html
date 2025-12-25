@@ -81,3 +81,65 @@ body {
   window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+
+<!-- ========================================== -->
+<!-- 1. 动态 Favicon (会呼吸的蓝色水滴) -->
+<!-- ========================================== -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300a8ff'%3E%3Canimate attributeName='r' values='40;30;40' dur='2s' repeatCount='indefinite' /%3E%3Canimate attributeName='opacity' values='1;0.5;1' dur='2s' repeatCount='indefinite' /%3E%3C/circle%3E%3C/svg%3E">
+
+<!-- ========================================== -->
+<!-- 2. Lenis 平滑滚动 (让网页像在水里一样滑) -->
+<!-- ========================================== -->
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+<script>
+  // 初始化平滑滚动
+  const lenis = new Lenis({
+    duration: 1.5,      // 滚动持续时间，数值越大越"滑"
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+  });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+</script>
+
+<!-- ========================================== -->
+<!-- 3. P5.js 水波纹背景 (极简版) -->
+<!-- ========================================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<script>
+  // 注入样式，确保 Canvas 在最底层
+  const style = document.createElement('style');
+  style.innerHTML = 'canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; opacity: 0.6; }';
+  document.head.appendChild(style);
+
+  function setup() {
+    createCanvas(windowWidth, windowHeight);
+    noStroke();
+  }
+
+  function draw() {
+    // 每一帧都画一层淡淡的背景，形成拖尾效果
+    // 240, 248, 255 是"爱丽丝蓝"，很浅的水色; 20 是透明度
+    background(240, 248, 255, 20); 
+
+    // 如果鼠标移动，画蓝色的水珠
+    if (mouseX > 0 && mouseY > 0) {
+      fill(0, 168, 255, 150); // 蓝色，带一点透明
+      let size = random(10, 30); // 随机大小
+      circle(mouseX, mouseY, size);
+    }
+    
+    // 自动生成的随机水泡（增加一点氛围）
+    if (frameCount % 10 === 0) {
+      fill(0, 168, 255, 50);
+      circle(random(width), random(height), random(5, 15));
+    }
+  }
+
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
+</script>
