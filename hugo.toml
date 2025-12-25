@@ -44,7 +44,10 @@ theme = 'hugo-theme-stack'
     [markup.goldmark]
         [markup.goldmark.renderer]
             unsafe = true
-
+[params.comments]
+    enabled = true
+    provider = "giscus"
+    
 [params.comments.giscus]
     enable = true
     repo = "waterfile130-cell/comments"  # 刚才填的仓库名
