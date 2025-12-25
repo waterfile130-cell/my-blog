@@ -1,26 +1,28 @@
+<!--
 <style>
 /* 这里直接写 CSS，不需要 SCSS 编译，绝对生效 */
 
 body {
-    /* 强制背景图 */
-    background-image: url('/images/2.jpg') !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
+  /* 强制背景图 */
+  background-image: url('/images/2.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
     
-    /* 核心：把body自带的底色变成透明 */
-    background-color: transparent !important;
+  /* 核心：把body自带的底色变成透明 */
+  background-color: transparent !important;
 }
 
 /* 针对 Stack 主题深色模式的特殊处理 */
 :root[data-scheme="dark"] body {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 /* 调试用：如果背景图还不出，至少这行会让文字变红，证明文件生效了 */
 /* body { color: red !important; } */
 </style>
+-->
 <style>
 /* ... 你之前的背景图代码保留在上面 ... */
 
@@ -108,6 +110,9 @@ body {
 <!-- ========================================== -->
 <!-- 3. P5.js 水波纹背景 (极简版) -->
 <!-- ========================================== -->
+<!-- P5.js 水波纹背景脚本已注释（选中区域）
+     若需恢复，将下面注释移除 -->
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 <script>
   // 注入样式，确保 Canvas 在最底层
@@ -142,4 +147,123 @@ body {
   function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
   }
+</script>
+-->
+
+<style>
+    /* 把之前的 background-image 删掉，我们要用纯色背景衬托粒子 */
+    body {
+        /* 这是一个很深的蓝灰色，适合做科技感背景 */
+        background-color: #1a1b26 !important; 
+        /* 如果你想用 Stack 主题自带的背景色，就把上面这行也删了 */
+    }
+    
+    /* 让 Stack 的卡片稍微透明一点，能透出背后的粒子 */
+    .article-list--compact article, .article-wrapper {
+        background: rgba(255, 255, 255, 0.9) !important; /* 白天模式卡片 */
+    }
+    :root[data-scheme="dark"] .article-list--compact article, 
+    :root[data-scheme="dark"] .article-wrapper {
+        background: rgba(40, 40, 40, 0.8) !important; /*深色模式卡片 */
+    }
+</style>
+
+<!-- 引入 P5.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+<script>
+    // 样式保持不变：最底层，不挡鼠标
+    const style = document.createElement('style');
+    style.innerHTML = 'canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }';
+    document.head.appendChild(style);
+
+    let particles = [];
+
+    function setup() {
+        // 【优化1】关闭高分屏适配，性能提升 4 倍
+        pixelDensity(1); 
+        
+        createCanvas(windowWidth, windowHeight);
+        
+        // 【优化2】智能控制粒子数量
+        // 无论屏幕多宽，粒子最多 100 个，最少 50 个。既保证密度，又锁死性能上限。
+        let pCount = Math.min(Math.floor(window.innerWidth / 15), 100);
+        
+        for (let i = 0; i < pCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // 强制锁定 60 帧
+        frameRate(60);
+    }
+
+    function draw() {
+        clear();
+        
+        // 使用 quadTree 算法太复杂，这里用简单的双重循环优化
+        // 只计算附近的点，减少不必要的渲染
+        for (let i = 0; i < particles.length; i++) {
+            let p = particles[i];
+            p.update();
+            p.draw();
+            
+            // 连线检查
+            // 从 i+1 开始循环，避免重复计算 (A-B 算了就不算 B-A)
+            for (let j = i + 1; j < particles.length; j++) {
+                let other = particles[j];
+                // 【优化3】先快速判断 x 轴和 y 轴距离，如果太远直接跳过，不开方运算
+                if (Math.abs(p.pos.x - other.pos.x) > 120 || Math.abs(p.pos.y - other.pos.y) > 120) continue;
+
+                let d = p.pos.dist(other.pos);
+                if (d < 120) {
+                    // 线条颜色：淡蓝色
+                    let alpha = map(d, 0, 120, 150, 0); // 距离越远越透明
+                    stroke(100, 200, 255, alpha);
+                    strokeWeight(1);
+                    line(p.pos.x, p.pos.y, other.pos.x, other.pos.y);
+                }
+            }
+        }
+    }
+
+    class Particle {
+        constructor() {
+            this.pos = createVector(random(width), random(height));
+            // 速度稍微调快一点点，增加灵动感
+            this.vel = createVector(random(-0.8, 0.8), random(-0.8, 0.8));
+            this.size = random(2, 5); // 稍微改小一点，显得更精致
+        }
+
+        update() {
+            this.pos.add(this.vel);
+
+            // 碰到边界反弹
+            if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
+            if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
+
+            // 鼠标交互 (简单的斥力)
+            // 只有当鼠标在画面内时才计算
+            if (mouseX > 0 && mouseY > 0) {
+                let dx = this.pos.x - mouseX;
+                let dy = this.pos.y - mouseY;
+                // 简单的平方距离检查，比 dist() 快
+                if (dx * dx + dy * dy < 200 * 200) { 
+                    let mouseV = createVector(mouseX, mouseY);
+                    let force = p5.Vector.sub(this.pos, mouseV);
+                    force.setMag(0.8); // 斥力力度
+                    this.pos.add(force);
+                }
+            }
+        }
+
+        draw() {
+            noStroke();
+            fill(100, 200, 255, 180);
+            circle(this.pos.x, this.pos.y, this.size);
+        }
+    }
+
+    function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+    }
 </script>
