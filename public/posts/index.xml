@@ -118,27 +118,6 @@ In a production environment, a single point of failure (SPOF) is a DevOps nightm
 <p><strong>Goal</strong>: Two servers acting as backups for each other. Normally, each handles one VIP (Virtual IP). If one server fails, the other instantly takes over all traffic!</p>]]></description>
 </item>
 <item>
-    <title>My First Post</title>
-    <link>http://localhost:1313/my-first-post/</link>
-    <pubDate>Mon, 22 Dec 2025 20:21:24 &#43;0800</pubDate>
-    <author>xxxx</author>
-    <guid>http://localhost:1313/my-first-post/</guid>
-    <description><![CDATA[<h2 id="draft-false---一定要确保这里是-false如果是-true-网页上是不显示的">image:
-math: false
-license:
-hidden: false
-comments: true
-draft: false  &lt;&ndash; 一定要确保这里是 false，如果是 true 网页上是不显示的</h2>
-<h2 id="大家好">大家好</h2>
-<p>这是我用 Hugo + GitHub + Vercel 搭建的免费博客。</p>
-<h3></h3>
-<ol>
-<li>怎么配置 Hugo 环境</li>
-<li>怎么解决 GitHub 代理问题</li>
-<li>TOML 配置文件不能重复写 params</li>
-</ol>]]></description>
-</item>
-<item>
     <title>📅 2025-12-18 每日天气播报</title>
     <link>http://localhost:1313/weather-2025-12-18/</link>
     <pubDate>Thu, 18 Dec 2025 09:38:14 &#43;0800</pubDate>
@@ -151,6 +130,14 @@ draft: false  &lt;&ndash; 一定要确保这里是 false，如果是 true 网页
 <p>Beijing: 🌫  -1°C</p>
 </blockquote>
 <p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+<item>
+    <title>Hello</title>
+    <link>http://localhost:1313/hello/</link>
+    <pubDate>Wed, 17 Dec 2025 20:40:03 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/hello/</guid>
+    <description><![CDATA[]]></description>
 </item>
 </channel>
 </rss>

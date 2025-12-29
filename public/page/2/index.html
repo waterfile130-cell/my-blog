@@ -5,10 +5,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>LoveIt</title><meta name="Description" content="Hugo theme - LoveIt"><meta property="og:url" content="http://localhost:1313/">
+        <title>LoveIt</title><meta name="Description" content="这里可以写你的网站描述"><meta property="og:url" content="http://localhost:1313/">
   <meta property="og:site_name" content="LoveIt">
   <meta property="og:title" content="LoveIt">
-  <meta property="og:description" content="Hugo theme - LoveIt">
+  <meta property="og:description" content="这里可以写你的网站描述">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="website">
     <meta property="og:image" content="http://localhost:1313/logo.png">
@@ -16,7 +16,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://localhost:1313/logo.png">
   <meta name="twitter:title" content="LoveIt">
-  <meta name="twitter:description" content="Hugo theme - LoveIt">
+  <meta name="twitter:description" content="这里可以写你的网站描述">
       <meta name="twitter:site" content="@xxxx">
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -108,7 +108,39 @@
         data-sizes="auto"
         alt="/images/avatar.png"
         title="/images/avatar.png" /></a></div><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="https://github.com/xxxx" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github fa-fw" aria-hidden="true"></i></a><a href="https://twitter.com/xxxx" title="Twitter" target="_blank" rel="noopener noreffer me"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="https://www.instagram.com/xxxx" title="Instagram" target="_blank" rel="noopener noreffer me"><i class="fab fa-instagram fa-fw" aria-hidden="true"></i></a><a href="https://facebook.com/xxxx" title="facebook" target="_blank" rel="noopener noreffer me"><i class="fab fa-facebook fa-fw" aria-hidden="true"></i></a><a href="https://t.me/xxxx" title="Telegram" target="_blank" rel="noopener noreffer me"><i class="fab fa-telegram-plane fa-fw" aria-hidden="true"></i></a><a href="https://www.youtube.com/user/xxxx" title="YouTube" target="_blank" rel="noopener noreffer me"><i class="fab fa-youtube fa-fw" aria-hidden="true"></i></a><a href="https://mastodon.technology/@xxxx" title="Mastodon" target="_blank" rel="noopener noreffer me"><i class="fab fa-mastodon fa-fw" aria-hidden="true"></i></a><a href="tel:555-555-555" title="Phone" rel="me"><i class="fas fa-phone fa-fw" aria-hidden="true"></i></a><a href="mailto:xxxx@xxxx.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreffer me"><i class="fas fa-rss fa-fw" aria-hidden="true"></i></a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+<div class="single">
+                <div class="content" id="content"><div style="
+    margin-top: 0rem;
+    width: 100vw; 
+    height: 100vh;
+    margin-left: calc(50% - 50vw); 
+    overflow: hidden; 
+    position: relative; 
+    margin-bottom: 2rem;">
+    <video autoplay loop muted playsinline style="
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover;">
+        <source src="/videos/hero.mp4" type="video/mp4">
+        您的浏览器不支持视频播放。
+    </video>
+<pre><code>&lt;!-- 这里是视频上面的文字，如果不需要可以删掉下面这几行 --&gt;
+&lt;div style=&quot;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    color: white; 
+    text-shadow: 0 0 10px black;
+    text-align: center;&quot;&gt;
+    &lt;h1&gt;欢迎来到我的世界&lt;/h1&gt;
+    &lt;p&gt;Keep Simple, Keep Coding&lt;/p&gt;
+&lt;/div&gt;
+&lt;!-- 文字部分结束 --&gt;
+</code></pre>
+</div>
+</div>
+            </div><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/whats-keepalived/">keepalived</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xxxx</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-12-23">2025-12-23</time></span>&nbsp;<span class="post-category">included in <a href="/categories/tech/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tech</a></span></div><div class="content"><h3 id="1-什么是高可用-high-availability-ha">1. 什么是高可用 (High Availability, HA)？</h3>
 <p>在 IT 领域，&lsquo;高可用&rsquo;指的是系统在面对硬件故障、软件错误或网络问题时，仍能长时间持续提供服务的能力。</p>
@@ -144,23 +176,6 @@ In a production environment, a single point of failure (SPOF) is a DevOps nightm
 <p><strong>Goal</strong>: Two servers acting as backups for each other. Normally, each handles one VIP (Virtual IP). If one server fails, the other instantly takes over all traffic!</p></div><div class="post-footer">
         <a href="/building-keepalived-nginx-dual-master-ha-cluster/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/nginx/">Nginx</a>,&nbsp;<a href="/tags/keepalived/">Keepalived</a>,&nbsp;<a href="/tags/ubuntu/">Ubuntu</a>,&nbsp;<a href="/tags/load-balancing/">Load-Balancing</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/my-first-post/">My First Post</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xxxx</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-12-22">2025-12-22</time></span></div><div class="content"><h2 id="draft-false---一定要确保这里是-false如果是-true-网页上是不显示的">image:
-math: false
-license:
-hidden: false
-comments: true
-draft: false  &lt;&ndash; 一定要确保这里是 false，如果是 true 网页上是不显示的</h2>
-<h2 id="大家好">大家好</h2>
-<p>这是我用 Hugo + GitHub + Vercel 搭建的免费博客。</p>
-<h3></h3>
-<ol>
-<li>怎么配置 Hugo 环境</li>
-<li>怎么解决 GitHub 代理问题</li>
-<li>TOML 配置文件不能重复写 params</li>
-</ol></div><div class="post-footer">
-        <a href="/my-first-post/">Read More</a></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/weather-2025-12-18/">📅 2025-12-18 每日天气播报</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xxxx</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-12-18">2025-12-18</time></span></div><div class="content"><h2 id="-机器人自动播报">🤖 机器人自动播报</h2>

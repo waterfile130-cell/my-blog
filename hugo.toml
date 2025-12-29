@@ -256,7 +256,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # Home page profile
     # 主页个人信息
     [params.home.profile]
-      enable = true
+      enable = false 
       # Gravatar Email for preferred avatar in home page
       # Gravatar 邮箱，用于优先在主页显示的头像
       gravatarEmail = ""
@@ -274,7 +274,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       typeit = true
       # whether to show social links
       # 是否显示社交账号
-      social = true
+      social = false
       # disclaimer (HTML format is supported)
       # 免责声明 (支持 HTML 格式)
       disclaimer = ""
@@ -943,7 +943,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         title = "GitHub"
     [languages.zh-cn.params]
       [languages.zh-cn.params.search]
-        enable = true
+        enable = false
         type = "algolia"
         contentLength = 4000
         placeholder = ""
@@ -958,7 +958,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       [languages.zh-cn.params.home]
         rss = 10
         [languages.zh-cn.params.home.profile]
-          enable = true
+          enable = false
           gravatarEmail = ""
           avatarURL = "/images/avatar.png"
           title = ""

@@ -2,8 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://localhost:1313/ansible-2.0/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://localhost:1313/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>http://localhost:1313/</loc><lastmod>2025-12-29T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
                         href="http://localhost:1313/zh-cn/"
@@ -12,6 +11,7 @@
                     hreflang="en"
                     href="http://localhost:1313/"
                     /></url><url>
+            <loc>http://localhost:1313/ansible-2.0/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/posts/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/weather-2025-12-27/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/tags/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
@@ -51,6 +51,5 @@
             <loc>http://localhost:1313/tags/load-balancing/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/tags/nginx/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/tags/ubuntu/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://localhost:1313/my-first-post/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/weather-2025-12-18/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/hello/</loc><lastmod>2025-12-29T14:20:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url></urlset>
