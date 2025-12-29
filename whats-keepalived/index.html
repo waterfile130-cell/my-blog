@@ -1,0 +1,189 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>keepalived - LoveIt</title><meta name=Description content="keepalived基础知识"><meta property="og:url" content="https://1water1.top/whats-keepalived/"><meta property="og:site_name" content="LoveIt"><meta property="og:title" content="keepalived"><meta property="og:description" content="keepalived基础知识"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-12-23T10:14:01+08:00"><meta property="article:modified_time" content="2025-12-29T14:20:14+08:00"><meta property="article:tag" content="Linux"><meta property="article:tag" content="运维"><meta property="article:tag" content="高可用集群"><meta property="og:image" content="https://1water1.top/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://1water1.top/logo.png"><meta name=twitter:title content="keepalived"><meta name=twitter:description content="keepalived基础知识"><meta name=twitter:site content="@xxxx"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://1water1.top/whats-keepalived/><link rel=prev href=https://1water1.top/building-keepalived-nginx-dual-master-ha-cluster/><link rel=next href=https://1water1.top/weather-2025-12-24/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"keepalived","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/1water1.top\/whats-keepalived\/"},"image":["https:\/\/1water1.top\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Linux, 运维, 高可用集群","wordcount":548,"url":"https:\/\/1water1.top\/whats-keepalived\/","datePublished":"2025-12-23T10:14:01+08:00","dateModified":"2025-12-29T14:20:14+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/1water1.top\/images\/avatar.png"},"author":{"@type":"Person","name":"xxxx"},"description":"keepalived基础知识"}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=LoveIt><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>LoveIt</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/tags/>Tags </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/categories/documentation/>Docs </a><a class=menu-item href=/about/>About </a><a class=menu-item href=https://github.com/dillonzq/LoveIt title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title="Select Language"><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/whats-keepalived/ selected>English</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=LoveIt><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>LoveIt</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/tags/ title>Tags</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/categories/documentation/ title>Docs</a><a class=menu-item href=/about/ title>About</a><a class=menu-item href=https://github.com/dillonzq/LoveIt title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title="Select Language"><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/whats-keepalived/ selected>English</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">keepalived</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>xxxx</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tech/><i class="far fa-folder fa-fw" aria-hidden=true></i>Tech</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2025-12-23>2025-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;548 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;3 minutes&nbsp;<span id=/whats-keepalived/ class=leancloud_visitors data-flag-title=keepalived>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#1-什么是高可用-high-availability-ha>1. 什么是高可用 (High Availability, HA)？</a></li><li><a href=#2-核心基石vrrp-协议>2. 核心基石：VRRP 协议</a><ul><li><a href=#vrrp-的工作原理>VRRP 的工作原理：</a></li></ul></li><li><a href=#3-keepalived-基础知识>3. Keepalived 基础知识</a></li><li><a href=#4-缺省路由-default-route-与-keepalived>4. 缺省路由 (Default Route) 与 Keepalived</a></li><li><a href=#5-高可用方式-ha-modes>5. 高可用方式 (HA Modes)</a><ul><li><a href=#模式一主备模式-active-standby--最常用最简单>模式一：主备模式 (Active-Standby) —— 最常用、最简单</a></li><li><a href=#模式二双主模式-active-active--双主双备>模式二：双主模式 (Active-Active) / 双主双备</a></li></ul></li><li><a href=#6-实战配置示例-主备模式>6. 实战配置示例 (主备模式)</a><ul><li><a href=#a-master-节点配置-etckeepalivedkeepalivedconf>A. Master 节点配置 (<code>/etc/keepalived/keepalived.conf</code>)</a></li><li><a href=#b-backup-节点配置>B. Backup 节点配置</a></li><li><a href=#c-关键点健康检测脚本>C. 关键点：健康检测脚本</a></li></ul></li><li><a href=#7-常见问题脑裂-split-brain>7. 常见问题：脑裂 (Split Brain)</a></li><li><a href=#总结>总结</a></li></ul></li></ul></nav></div></div><div class=content id=content><h3 id=1-什么是高可用-high-availability-ha>1. 什么是高可用 (High Availability, HA)？</h3><p>在 IT 领域，&lsquo;高可用&rsquo;指的是系统在面对硬件故障、软件错误或网络问题时，仍能长时间持续提供服务的能力。</p><pre><code>'目标'：消除单点故障（SPOF）。如果一台服务器挂了，另一台能立马顶上。
+'衡量标准'：通常用“几个9”来衡量，比如 99.99%（意味着一年停机时间不超过 52 分钟）。
+</code></pre><p>&lsquo;Keepalived&rsquo; 就是Linux下一个轻量级的高可用解决方案，它最初是为 LVS（Linux Virtual Server）设计的，用来管理并监控负载均衡集群中的服务节点状态。</p><h3 id=2-核心基石vrrp-协议>2. 核心基石：VRRP 协议</h3><p>要懂 Keepalived，必须先懂 &lsquo;VRRP&rsquo; (Virtual Router Redundancy Protocol，虚拟路由器冗余协议)。Keepalived 就是用 C 语言实现了 VRRP 协议。</p><h4 id=vrrp-的工作原理>VRRP 的工作原理：</h4><p>想象一下，你有一群路由器，我们想让它们在外面看起来像&rsquo;一台&rsquo;超级路由器。</p><ol><li>&lsquo;虚拟 IP (VIP)&rsquo;：这是对外提供服务的 IP 地址。客户端只连接这个 IP，不知道后面具体是哪台机器。</li><li>&lsquo;角色&rsquo;：
+&rsquo; &lsquo;Master (主节点)&rsquo;：真正持有 VIP，负责处理流量，并周期性地向 Backup 发送“我还活着”的广播包（心跳）。
+&rsquo; &lsquo;Backup (备节点)&rsquo;：监听 Master 的广播。</li><li>&lsquo;选举与故障切换 (Failover)&rsquo;：
+&rsquo; Backup 如果在一定时间内（通常是3秒）收不到 Master 的心跳包，就认为 Master 挂了。
+&rsquo; Backup 根据优先级（Priority）选举出新的 Master，接管 VIP。
+&rsquo; 一旦旧 Master 恢复，根据配置（抢占模式），它可能会重新夺回 VIP。</li></ol><h3 id=3-keepalived-基础知识>3. Keepalived 基础知识</h3><p>Keepalived 主要有两个核心功能：</p><ol><li>&lsquo;VRRP 高可用&rsquo;：也就是上面说的，管理 VIP 在多台服务器之间漂移。</li><li>&lsquo;健康检查 (Health Checking)&rsquo;：
+&rsquo; 它可以检查后端真实服务器（如 Nginx、MySQL）是否活着。
+&rsquo; &lsquo;Layer 3 (IP层)&rsquo;：通过 ICMP (Ping) 检查。
+&rsquo; &lsquo;Layer 4 (TCP端口层)&rsquo;：检查端口（如 80, 3306）是否通。
+&rsquo; &lsquo;Layer 7 (应用层)&rsquo;：通过自定义脚本检查服务状态（比如 Nginx 进程还在，但网页返回 500 错误）。</li></ol><p>&lsquo;Keepalived 的组件结构&rsquo;：
+&rsquo; &lsquo;Checkers&rsquo;：负责真实服务器的健康检查。
+&rsquo; &lsquo;VRRP Stack&rsquo;：处理 VRRP 协议的广播和选举。
+&rsquo; &lsquo;Netlink Reflector&rsquo;：与 Linux 内核交互，负责在网卡上添加或删除 VIP。</p><h3 id=4-缺省路由-default-route-与-keepalived>4. 缺省路由 (Default Route) 与 Keepalived</h3><p>&lsquo;角度一：客户端/下游设备的缺省网关&rsquo;
+&rsquo; &lsquo;场景&rsquo;：Keepalived 用在路由器或防火墙的高可用上。
+&rsquo; &lsquo;作用&rsquo;：局域网内的电脑需要上网，它们的&rsquo;缺省路由（网关）&lsquo;指向的是 VRRP 生成的 &lsquo;VIP&rsquo;。
+&rsquo; &lsquo;效果&rsquo;：当主路由器挂掉，VIP 漂移到备用路由器，局域网内的电脑无感知，依然通过 VIP 上网。</p><p>&lsquo;角度二：服务器本身的路由&rsquo;
+&rsquo; &lsquo;场景&rsquo;：Keepalived 部署在服务器上（如 Nginx 负载均衡）。
+&rsquo; &lsquo;问题&rsquo;：Keepalived 配置文件中有一个 <code>virtual_routes</code> 区块。
+&rsquo; &lsquo;作用&rsquo;：当这台机器变成 Master 时，可以自动添加一条路由规则；当它变成 Backup 时，自动删除。
+&rsquo; &lsquo;实战&rsquo;：通常在服务器模式下我们很少配 <code>virtual_routes</code>，只配 <code>virtual_ipaddress</code> 就够了。但在复杂的双网卡、跨网段环境中，可能需要用它来指定回包的路由。</p><h3 id=5-高可用方式-ha-modes>5. 高可用方式 (HA Modes)</h3><p>Keepalived 常见的架构模式主要有两种：</p><h4 id=模式一主备模式-active-standby--最常用最简单>模式一：主备模式 (Active-Standby) —— 最常用、最简单</h4><pre><code>'   '架构'：节点 A (Master) + 节点 B (Backup)。
+'   'VIP'：只有 1 个 VIP。
+'   '状态'：
+'       正常时：VIP 在节点 A 上，所有流量只走 A。节点 B 闲置（作为冷备）。
+'       故障时：VIP 漂移到 B，流量走 B。
+'   '优点'：配置简单，极少出现数据不一致。
+'   ''缺点''：浪费了一台服务器的资源（节点 B 平时没事干）。
+</code></pre><h4 id=模式二双主模式-active-active--双主双备>模式二：双主模式 (Active-Active) / 双主双备</h4><pre><code>'   ''架构''：节点 A + 节点 B。
+'   ''VIP''：配置 ''2 个 VIP'' (VIP1, VIP2)。
+'   ''配置逻辑''：
+    '   对于 VIP1：节点 A 是 Master，节点 B 是 Backup。
+    '   对于 VIP2：节点 B 是 Master，节点 A 是 Backup。
+'   ''流量分配''：通过 DNS 轮询，将一半用户解析到 VIP1，一半解析到 VIP2。
+'   ''状态''：两台机器同时工作。如果 A 挂了，VIP1 跑到 B 上，此时 B 拥有两个 VIP，承担所有流量。
+'   ''优点''：资源利用率高。
+</code></pre><h3 id=6-实战配置示例-主备模式>6. 实战配置示例 (主备模式)</h3><p>假设我们要对两台 Nginx 负载均衡器做高可用。
+&rsquo; Master IP: 192.168.1.10
+&rsquo; Backup IP: 192.168.1.11
+&rsquo; &lsquo;&lsquo;VIP: 192.168.1.100&rsquo;&rsquo;</p><h4 id=a-master-节点配置-etckeepalivedkeepalivedconf>A. Master 节点配置 (<code>/etc/keepalived/keepalived.conf</code>)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-nginx data-lang=nginx><span class=line><span class=cl><span class=k>global_defs</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>   <span class=kn>router_id</span> <span class=s>LVS_DEVEL_MASTER</span>  <span class=c1># 标识本节点的ID，随便写但要唯一
+</span></span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 定义一个检测脚本，用来检查 Nginx 是否活着
+</span></span></span><span class=line><span class=cl><span class=s>vrrp_script</span> <span class=s>check_nginx</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kn>script</span> <span class=s>&#34;/etc/keepalived/check_nginx.sh&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>interval</span> <span class=mi>2</span>  <span class=c1># 每2秒检测一次
+</span></span></span><span class=line><span class=cl>    <span class=s>weight</span> <span class=s>-20</span>  <span class=c1># 如果检测失败，权重减少20
+</span></span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>vrrp_instance</span> <span class=s>VI_1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kn>state</span> <span class=s>MASTER</span>          <span class=c1># 初始状态：Master
+</span></span></span><span class=line><span class=cl>    <span class=s>interface</span> <span class=s>eth0</span>        <span class=c1># 绑定VIP的网卡
+</span></span></span><span class=line><span class=cl>    <span class=s>virtual_router_id</span> <span class=mi>51</span>  <span class=c1># VRID，主备必须一致！
+</span></span></span><span class=line><span class=cl>    <span class=s>priority</span> <span class=mi>100</span>          <span class=c1># 优先级，Master要比Backup高
+</span></span></span><span class=line><span class=cl>    <span class=s>advert_int</span> <span class=mi>1</span>          <span class=c1># 广播间隔1秒
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>authentication</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>auth_type</span> <span class=s>PASS</span>
+</span></span><span class=line><span class=cl>        <span class=s>auth_pass</span> <span class=mi>1111</span>    <span class=c1># 密码，主备必须一致
+</span></span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>virtual_ipaddress</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>192.168.1.100</span>     <span class=c1>#这就是 VIP
+</span></span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>track_script</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>check_nginx</span>       <span class=c1># 调用上面的检测脚本
+</span></span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=b-backup-节点配置>B. Backup 节点配置</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-nginx data-lang=nginx><span class=line><span class=cl><span class=k>global_defs</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>   <span class=kn>router_id</span> <span class=s>LVS_DEVEL_BACKUP</span>
+</span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>vrrp_script</span> <span class=s>check_nginx</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kn>script</span> <span class=s>&#34;/etc/keepalived/check_nginx.sh&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>interval</span> <span class=mi>2</span>
+</span></span><span class=line><span class=cl>    <span class=s>weight</span> <span class=s>-20</span>
+</span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>vrrp_instance</span> <span class=s>VI_1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kn>state</span> <span class=s>BACKUP</span>          <span class=c1># 初始状态：Backup
+</span></span></span><span class=line><span class=cl>    <span class=s>interface</span> <span class=s>eth0</span>
+</span></span><span class=line><span class=cl>    <span class=s>virtual_router_id</span> <span class=mi>51</span>  <span class=c1># 必须和Master一样
+</span></span></span><span class=line><span class=cl>    <span class=s>priority</span> <span class=mi>90</span>           <span class=c1># 优先级必须比Master低
+</span></span></span><span class=line><span class=cl>    <span class=s>advert_int</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>authentication</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>auth_type</span> <span class=s>PASS</span>
+</span></span><span class=line><span class=cl>        <span class=s>auth_pass</span> <span class=mi>1111</span>
+</span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>virtual_ipaddress</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>192.168.1.100</span>
+</span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>track_script</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kn>check_nginx</span>
+</span></span><span class=line><span class=cl>    <span class=err>}</span>
+</span></span><span class=line><span class=cl><span class=err>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=c-关键点健康检测脚本>C. 关键点：健康检测脚本</h4><p>Keepalived 进程活着不代表业务活着。如果 Nginx 挂了，Keepalived 还在，VIP 就不会漂移，用户访问就会报错。所以必须配合脚本：</p><p>脚本逻辑：&lsquo;如果 Nginx 进程不存在，就尝试重启 Nginx；如果还不行，就杀掉 Keepalived 进程（或者降低权重），触发 VIP 漂移。&rsquo;</p><h3 id=7-常见问题脑裂-split-brain>7. 常见问题：脑裂 (Split Brain)</h3><p>&lsquo;&lsquo;什么是脑裂？&rsquo;&rsquo;
+主备之间的心跳线断了（比如防火墙挡住了 VRRP 组播包，或者网线断了），Backup 以为 Master 死了，于是强行接管 VIP。结果是：&lsquo;&lsquo;Master 和 Backup 都有 VIP&rsquo;&rsquo;。</p><p>&lsquo;&lsquo;后果&rsquo;&rsquo;：
+IP 冲突，数据写入混乱，用户访问时通时断。</p><p>&lsquo;&lsquo;如何预防？&rsquo;&rsquo;</p><ol><li>防火墙允许 VRRP 协议（IP 协议号 112）通过。</li><li>使用串行电缆或多条线路做心跳冗余。</li><li>脚本检测：一旦发现自己是 Master 但 Ping 不通网关，自动降级。</li></ol><h3 id=总结>总结</h3><pre><code>'   ''Keepalived'' = ''VRRP'' (抢 VIP) + ''Health Check'' (看病)。
+'   ''VRRP'' 让多台机器共享一个 ''VIP''，谁优先级高谁拿。
+'   ''缺省路由'' 在这里通常指客户端将 VIP 作为网关，或者 Keepalived 自身管理路由表。
+'   最稳的架构是 ''主备模式 (Master/Backup)''。
+'   一定要配置 '健康检测脚本'，确保应用挂了 VIP 能及时切换。
+</code></pre></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2025-12-29&nbsp;<a class=git-hash href=https://github.com/dillonzq/LoveIt/commit/a91547ddc2fbfc2e2a0bbb1cb1c13672372119d7 target=_blank title="commit by water(waterfile130@gmail.com) a91547ddc2fbfc2e2a0bbb1cb1c13672372119d7: first commit">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>a91547d</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/whats-keepalived/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://1water1.top/whats-keepalived/ data-title=keepalived data-via=xxxx data-hashtags=Linux,运维,高可用集群><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://1water1.top/whats-keepalived/ data-hashtag=Linux><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Hacker News" data-sharer=hackernews data-url=https://1water1.top/whats-keepalived/ data-title=keepalived><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="Share on Line" data-sharer=line data-url=https://1water1.top/whats-keepalived/ data-title=keepalived><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="Share on 微博" data-sharer=weibo data-url=https://1water1.top/whats-keepalived/ data-title=keepalived><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/linux/>Linux</a>,&nbsp;<a href=/tags/%E8%BF%90%E7%BB%B4/>运维</a>,&nbsp;<a href=/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/>高可用集群</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/building-keepalived-nginx-dual-master-ha-cluster/ class=prev rel=prev title="Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)</a>
+<a href=/weather-2025-12-24/ class=next rel=next title="📅 2025-12-24 每日天气播报">📅 2025-12-24 每日天气播报<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.153.4">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2025</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>xxxx</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@15.1.2/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"en",pageSize:10,placeholder:"Your comment ...",recordIP:!0,serverURLs:"https://valine.hugoloveit.com",visitor:!0}},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.en",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
