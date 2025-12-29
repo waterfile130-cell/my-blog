@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles） - LoveIt</title><meta name="Description" content="Hugo theme - LoveIt"><meta property="og:url" content="http://localhost:1313/ansible/">
+  <meta property="og:site_name" content="LoveIt">
+  <meta property="og:title" content="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）">
+  <meta property="og:description" content="本文记录了我从零开始学习 Ansible 的完整过程。在一个由 Rocky Linux 和 Ubuntu 组成的混合环境中，实现了 SSH 免密互信、Nginx 批量部署、差异化配置自动分发、HAProxy 负载均衡集群搭建，以及使用 Roles 重构代码和 Vault 加密敏感数据。">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-25T14:54:18+08:00">
+    <meta property="article:modified_time" content="2025-12-25T14:54:18+08:00">
+    <meta property="og:image" content="http://localhost:1313/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/logo.png">
+  <meta name="twitter:title" content="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）">
+  <meta name="twitter:description" content="本文记录了我从零开始学习 Ansible 的完整过程。在一个由 Rocky Linux 和 Ubuntu 组成的混合环境中，实现了 SSH 免密互信、Nginx 批量部署、差异化配置自动分发、HAProxy 负载均衡集群搭建，以及使用 Roles 重构代码和 Vault 加密敏感数据。">
+      <meta name="twitter:site" content="@xxxx">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/ansible/" /><link rel="prev" href="http://localhost:1313/weather-2025-12-25/" /><link rel="next" href="http://localhost:1313/weather-2025-12-26/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "🚀 Ansible 笔记：构建自动化运维集群（Nginx + HAProxy + Roles）",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/ansible\/"
+        },"image": ["http:\/\/localhost:1313\/images\/Apple-Devices-Preview.png"],"genre": "posts","wordcount":  505 ,
+        "url": "http:\/\/localhost:1313\/ansible\/","datePublished": "2025-12-25T14:54:18+08:00","dateModified": "2025-12-25T14:54:18+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "http:\/\/localhost:1313\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "xxxx"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>LoveIt</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/categories/documentation/"> Docs </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="Select Language">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/ansible/" selected>English</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>LoveIt</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/categories/documentation/" title="">Docs</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="Select Language">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/ansible/" selected>English</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">🚀 Ansible 笔记：构建自动化运维集群（Nginx + HAProxy + Roles）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xxxx</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-25">2025-12-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;505 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-实验环境规划">1. 实验环境规划</a>
+      <ul>
+        <li><a href="#1-实验环境规划-1">1. 实验环境规划</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-基础环境配置-the-foundation">2. 基础环境配置 (The Foundation)</a>
+      <ul>
+        <li><a href="#21-安装-ansible">2.1 安装 Ansible</a></li>
+        <li><a href="#22-ssh-免密互信-踩坑记录">2.2 SSH 免密互信 (踩坑记录)</a></li>
+        <li><a href="#23-构建-inventory-花名册">2.3 构建 Inventory (花名册)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-ad-hoc-命令体验">3. Ad-Hoc 命令体验</a></li>
+    <li><a href="#4-playbook-实战nginx-差异化部署">4. Playbook 实战：Nginx 差异化部署</a>
+      <ul>
+        <li><a href="#41-编写模板-templatesindexhtmlj2">4.1 编写模板 (<code>templates/index.html.j2</code>)</a></li>
+        <li><a href="#42-编写剧本-deployyml">4.2 编写剧本 (<code>deploy.yml</code>)</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-进阶挑战haproxy-负载均衡集群">5. 进阶挑战：HAProxy 负载均衡集群</a>
+      <ul>
+        <li><a href="#51-动态配置模板">5.1 动态配置模板</a></li>
+        <li><a href="#52-效果验证">5.2 效果验证</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-架构重构使用-roles-角色">6. 架构重构：使用 Roles (角色)</a></li>
+    <li><a href="#7-安全加固ansible-vault">7. 安全加固：Ansible Vault</a></li>
+    <li><a href="#8-常见报错与排查-troubleshooting">8. 常见报错与排查 (Troubleshooting)</a></li>
+    <li><a href="#结语">结语</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-实验环境规划">1. 实验环境规划</h2>
+<p>我使用了 3 台虚拟机，操作系统涵盖了 RHEL 系和 Debian 系，以测试 Ansible 对异构系统的兼容性。</p>
+<h3 id="1-实验环境规划-1">1. 实验环境规划</h3>
+<p>我使用了 3 台虚拟机，操作系统涵盖了 RHEL 系和 Debian 系，以测试 Ansible 对异构系统的兼容性。</p>
+<table>
+  <thead>
+      <tr>
+          <th>主机名</th>
+          <th>IP 地址</th>
+          <th>角色</th>
+          <th>操作系统</th>
+          <th>备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Rocky-12</strong></td>
+          <td>10.0.0.12</td>
+          <td><strong>控制节点 (Ansible Server)</strong><br><strong>负载均衡器 (HAProxy)</strong></td>
+          <td>Rocky Linux 9</td>
+          <td><strong>指挥官</strong>，所有命令在此执行</td>
+      </tr>
+      <tr>
+          <td><strong>Ubuntu-13</strong></td>
+          <td>10.0.0.13</td>
+          <td>被控节点 (Web Server)</td>
+          <td>Ubuntu 24.04</td>
+          <td>运行 Nginx</td>
+      </tr>
+      <tr>
+          <td><strong>Ubuntu-16</strong></td>
+          <td>10.0.0.16</td>
+          <td>被控节点 (Web Server)</td>
+          <td>Ubuntu 24.04</td>
+          <td>运行 Nginx</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="2-基础环境配置-the-foundation">2. 基础环境配置 (The Foundation)</h2>
+<h3 id="21-安装-ansible">2.1 安装 Ansible</h3>
+<p>Ansible 是无代理（Agentless）的，只需要在控制节点安装即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在 Rocky 9 控制节点上</span>
+</span></span><span class="line"><span class="cl">sudo dnf install epel-release -y
+</span></span><span class="line"><span class="cl">sudo dnf install ansible -y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-ssh-免密互信-踩坑记录">2.2 SSH 免密互信 (踩坑记录)</h3>
+<p>这是 Ansible 通信的基础。</p>
+<ul>
+<li><strong>踩坑：</strong> 一开始使用了 <code>ssh-keygen -p</code> 导致报错，后来发现小写 <code>-p</code> 是修改密码，大写 <code>-P</code> 才是设置新密码（空密码）。</li>
+</ul>
+<p><strong>正确操作：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1. 生成密钥 (一路回车)</span>
+</span></span><span class="line"><span class="cl">ssh-keygen -t rsa -P <span class="s1">&#39;&#39;</span> -f ~/.ssh/id_rsa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 分发公钥到所有节点 (包括自己)</span>
+</span></span><span class="line"><span class="cl">ssh-copy-id root@10.0.0.12
+</span></span><span class="line"><span class="cl">ssh-copy-id root@10.0.0.13
+</span></span><span class="line"><span class="cl">ssh-copy-id root@10.0.0.16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="23-构建-inventory-花名册">2.3 构建 Inventory (花名册)</h3>
+<p>为了不污染系统配置，我在项目目录建立了独立的配置文件。</p>
+<p><strong>文件结构：</strong> <code>/root/ansible_start/</code></p>
+<ul>
+<li><strong><code>hosts</code> (清单文件):</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[web]</span>
+</span></span><span class="line"><span class="cl"><span class="na">10.0.0.13</span>
+</span></span><span class="line"><span class="cl"><span class="na">10.0.0.16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[lb]</span>
+</span></span><span class="line"><span class="cl"><span class="na">10.0.0.12</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong><code>ansible.cfg</code> (配置文件):</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[defaults]</span>
+</span></span><span class="line"><span class="cl"><span class="na">inventory</span> <span class="o">=</span> <span class="s">./hosts</span>
+</span></span><span class="line"><span class="cl"><span class="na">host_key_checking</span> <span class="o">=</span> <span class="s">False  # 关键配置：跳过 SSH 指纹验证</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h2 id="3-ad-hoc-命令体验">3. Ad-Hoc 命令体验</h2>
+<p>在写剧本前，先用单行命令测试连接。</p>
+<ul>
+<li><strong>连通性测试：</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ansible all -m ping
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>跨平台安装软件 (混合双打)：</strong>
+使用 <code>package</code> 模块，它会自动判断是 <code>apt</code> 还是 <code>yum/dnf</code>。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 批量安装 git</span>
+</span></span><span class="line"><span class="cl">ansible web -m package -a <span class="s2">&#34;name=git state=present&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h2 id="4-playbook-实战nginx-差异化部署">4. Playbook 实战：Nginx 差异化部署</h2>
+<p>我编写了一个剧本，不仅安装 Nginx，还利用 <strong>Jinja2 模板</strong>实现了“千人千面”的网页效果。</p>
+<h3 id="41-编写模板-templatesindexhtmlj2">4.1 编写模板 (<code>templates/index.html.j2</code>)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>部署成功!<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 自动填入当前机器的主机名 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>我是主机: {{ ansible_hostname }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>系统: {{ ansible_os_family }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-编写剧本-deployyml">4.2 编写剧本 (<code>deploy.yml</code>)</h3>
+<p>这里处理了一个难点：Ubuntu 和 Rocky 的 Nginx 默认网页路径不同。我使用了 <code>when</code> 条件判断。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">部署 Nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l">web</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tasks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">安装 Nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l">name=nginx state=present</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">发布首页 (Ubuntu)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l">templates/index.html.j2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/var/www/html/index.html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l">ansible_os_family == &#34;Debian&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">发布首页 (Rocky)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l">templates/index.html.j2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/nginx/html/index.html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l">ansible_os_family == &#34;RedHat&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">启动服务</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">name=nginx state=started enabled=yes</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="5-进阶挑战haproxy-负载均衡集群">5. 进阶挑战：HAProxy 负载均衡集群</h2>
+<p>这是本次实验最高光的时刻。我将控制节点（Rocky-12）配置为负载均衡器，自动分发流量给后端的 Web 服务器。</p>
+<h3 id="51-动态配置模板">5.1 动态配置模板</h3>
+<p>难点在于不能把后端 IP 写死。我使用了 Jinja2 的 <code>for</code> 循环遍历 <code>[web]</code> 组。</p>
+<p><strong>文件：<code>templates/haproxy.cfg.j2</code> (核心片段)</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">backend app_servers
+</span></span><span class="line"><span class="cl">    balance roundrobin
+</span></span><span class="line"><span class="cl">    # 自动遍历 inventory 中的 web 组
+</span></span><span class="line"><span class="cl">    {% for host in groups[&#39;web&#39;] %}
+</span></span><span class="line"><span class="cl">    server {{ host }} {{ host }}:80 check
+</span></span><span class="line"><span class="cl">    {% endfor %}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="52-效果验证">5.2 效果验证</h3>
+<p>部署完成后，访问负载均衡器端口，实现了轮询效果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://10.0.0.12:8080
+</span></span><span class="line"><span class="cl"><span class="c1"># 第一次返回：我是主机: ubuntu-13</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第二次返回：我是主机: ubuntu-16</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="6-架构重构使用-roles-角色">6. 架构重构：使用 Roles (角色)</h2>
+<p>随着 <code>yml</code> 文件越来越多，管理变得混乱。我使用 Ansible Roles 进行了重构。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li><strong>初始化：</strong> <code>ansible-galaxy init nginx</code></li>
+<li><strong>拆解：</strong>
+<ul>
+<li>将 tasks 移动到 <code>roles/nginx/tasks/main.yml</code></li>
+<li>将 templates 移动到 <code>roles/nginx/templates/</code></li>
+<li>将 handlers 移动到 <code>roles/nginx/handlers/main.yml</code></li>
+</ul>
+</li>
+<li><strong>主入口 (<code>site.yml</code>):</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l">web</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">roles</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">nginx</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p><strong>心得：</strong> 重构后的代码结构清晰，就像把散乱的衣服整理进了收纳柜，非常适合大规模维护。</p>
+<hr>
+<h2 id="7-安全加固ansible-vault">7. 安全加固：Ansible Vault</h2>
+<p>为了不让管理员密码明文暴露，我学习了加密功能。</p>
+<ol>
+<li><strong>创建加密柜：</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ansible-vault create secrets.yml
+</span></span><span class="line"><span class="cl"><span class="c1"># 输入密码：123456</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 内容：admin_pass: &#34;MySecretP@ssword&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>使用加密变量：</strong>
+在 playbook 中加载 <code>vars_files: secrets.yml</code>。</li>
+<li><strong>执行：</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ansible-playbook create_user.yml --ask-vault-pass
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<hr>
+<h2 id="8-常见报错与排查-troubleshooting">8. 常见报错与排查 (Troubleshooting)</h2>
+<p>在学习过程中遇到的几个典型报错，非常具有参考价值：</p>
+<ol>
+<li><strong>[WARNING]: provided hosts list is empty</strong>
+<ul>
+<li><strong>原因：</strong> 在非项目目录下执行了 <code>ansible</code> 命令，导致读不到 <code>hosts</code> 文件。</li>
+<li><strong>解决：</strong> 必须进入 <code>ansible.cfg</code> 所在的目录操作。</li>
+</ul>
+</li>
+<li><strong>Syntax Error while loading YAML</strong>
+<ul>
+<li><strong>原因：</strong> 复制粘贴代码时，缩进错误，或者文件开头多写了 <code>---</code>。</li>
+<li><strong>解决：</strong> YAML 对缩进极其敏感，务必对齐；使用 <code>--syntax-check</code> 参数预检。</li>
+</ul>
+</li>
+<li><strong>Command not found (curl)</strong>
+<ul>
+<li><strong>原因：</strong> 最小化安装的 Ubuntu 缺少 <code>curl</code> 命令。</li>
+<li><strong>解决：</strong> 使用 Ansible 批量补装：<code>ansible web -m package -a &quot;name=curl state=present&quot;</code>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="结语">结语</h2>
+<p>通过这次实战，我深刻理解了 Ansible <strong>&ldquo;约定大于配置&rdquo;</strong> 的设计哲学。从简单的命令执行，到复杂的集群编排，Ansible 极大地释放了运维的生产力。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-12-25</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ansible/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://localhost:1313/ansible/" data-title="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）" data-via="xxxx"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/ansible/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/ansible/" data-title="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/ansible/" data-title="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/ansible/" data-title="🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/weather-2025-12-25/" class="prev" rel="prev" title="📅 2025-12-25 每日天气播报"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>📅 2025-12-25 每日天气播报</a>
+            <a href="/weather-2025-12-26/" class="next" rel="next" title="📅 2025-12-26 每日天气播报">📅 2025-12-26 每日天气播报<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,156 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - LoveIt</title>
+        <link>http://localhost:1313/posts/</link>
+        <description>All Posts | LoveIt</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 27 Dec 2025 18:30:18 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>🚀 Ansible 笔记： LVS&#43;Keepalived 的高可用负载均衡集群与 Ansible 自动化运维</title>
+    <link>http://localhost:1313/ansible-2.0/</link>
+    <pubDate>Sat, 27 Dec 2025 18:30:18 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/ansible-2.0/</guid>
+    <description><![CDATA[本文记录了构建基于 LVS+Keepalived 的高可用负载均衡集群并结合 Ansible 实现自动化运维。]]></description>
+</item>
+<item>
+    <title>📅 2025-12-27 每日天气播报</title>
+    <link>http://localhost:1313/weather-2025-12-27/</link>
+    <pubDate>Sat, 27 Dec 2025 09:11:48 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/weather-2025-12-27/</guid>
+    <description><![CDATA[<h2 id="-机器人自动播报">🤖 机器人自动播报</h2>
+<p><strong>北京时间</strong>：2025-12-27 09:11:48</p>
+<p><strong>今日天气</strong>：</p>
+<blockquote>
+<p>Beijing: ☀️   -2°C</p>
+</blockquote>
+<p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+<item>
+    <title>📅 2025-12-26 每日天气播报</title>
+    <link>http://localhost:1313/weather-2025-12-26/</link>
+    <pubDate>Fri, 26 Dec 2025 09:13:47 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/weather-2025-12-26/</guid>
+    <description><![CDATA[<h2 id="-机器人自动播报">🤖 机器人自动播报</h2>
+<p><strong>北京时间</strong>：2025-12-26 09:13:47</p>
+<p><strong>今日天气</strong>：</p>
+<blockquote>
+<p>Beijing: ☀️   -4°C</p>
+</blockquote>
+<p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+<item>
+    <title>🚀 Ansible 笔记：构建自动化运维集群（Nginx &#43; HAProxy &#43; Roles）</title>
+    <link>http://localhost:1313/ansible/</link>
+    <pubDate>Thu, 25 Dec 2025 14:54:18 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/ansible/</guid>
+    <description><![CDATA[本文记录了我从零开始学习 Ansible 的完整过程。在一个由 Rocky Linux 和 Ubuntu 组成的混合环境中，实现了 SSH 免密互信、Nginx 批量部署、差异化配置自动分发、HAProxy 负载均衡集群搭建，以及使用 Roles 重构代码和 Vault 加密敏感数据。]]></description>
+</item>
+<item>
+    <title>📅 2025-12-25 每日天气播报</title>
+    <link>http://localhost:1313/weather-2025-12-25/</link>
+    <pubDate>Thu, 25 Dec 2025 09:13:20 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/weather-2025-12-25/</guid>
+    <description><![CDATA[<h2 id="-机器人自动播报">🤖 机器人自动播报</h2>
+<p><strong>北京时间</strong>：2025-12-25 09:13:20</p>
+<p><strong>今日天气</strong>：</p>
+<blockquote>
+<p>Beijing: ☀️   -5°C</p>
+</blockquote>
+<p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+<item>
+    <title>📅 2025-12-24 每日天气播报</title>
+    <link>http://localhost:1313/weather-2025-12-24/</link>
+    <pubDate>Wed, 24 Dec 2025 09:12:41 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/weather-2025-12-24/</guid>
+    <description><![CDATA[<h2 id="-机器人自动播报">🤖 机器人自动播报</h2>
+<p><strong>北京时间</strong>：2025-12-24 09:12:41</p>
+<p><strong>今日天气</strong>：</p>
+<blockquote>
+<p>Beijing: ☀️   -9°C</p>
+</blockquote>
+<p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+<item>
+    <title>keepalived</title>
+    <link>http://localhost:1313/whats-keepalived/</link>
+    <pubDate>Tue, 23 Dec 2025 10:14:01 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/whats-keepalived/</guid>
+    <description><![CDATA[<h3 id="1-什么是高可用-high-availability-ha">1. 什么是高可用 (High Availability, HA)？</h3>
+<p>在 IT 领域，&lsquo;高可用&rsquo;指的是系统在面对硬件故障、软件错误或网络问题时，仍能长时间持续提供服务的能力。</p>
+<pre><code>'目标'：消除单点故障（SPOF）。如果一台服务器挂了，另一台能立马顶上。
+'衡量标准'：通常用“几个9”来衡量，比如 99.99%（意味着一年停机时间不超过 52 分钟）。
+</code></pre>
+<p>&lsquo;Keepalived&rsquo; 就是Linux下一个轻量级的高可用解决方案，它最初是为 LVS（Linux Virtual Server）设计的，用来管理并监控负载均衡集群中的服务节点状态。</p>
+<h3 id="2-核心基石vrrp-协议">2. 核心基石：VRRP 协议</h3>
+<p>要懂 Keepalived，必须先懂 &lsquo;VRRP&rsquo; (Virtual Router Redundancy Protocol，虚拟路由器冗余协议)。Keepalived 就是用 C 语言实现了 VRRP 协议。</p>
+<h4 id="vrrp-的工作原理">VRRP 的工作原理：</h4>
+<p>想象一下，你有一群路由器，我们想让它们在外面看起来像&rsquo;一台&rsquo;超级路由器。</p>
+<ol>
+<li>&lsquo;虚拟 IP (VIP)&rsquo;：这是对外提供服务的 IP 地址。客户端只连接这个 IP，不知道后面具体是哪台机器。</li>
+<li>&lsquo;角色&rsquo;：
+&rsquo;   &lsquo;Master (主节点)&rsquo;：真正持有 VIP，负责处理流量，并周期性地向 Backup 发送“我还活着”的广播包（心跳）。
+&rsquo;   &lsquo;Backup (备节点)&rsquo;：监听 Master 的广播。</li>
+<li>&lsquo;选举与故障切换 (Failover)&rsquo;：
+&rsquo;   Backup 如果在一定时间内（通常是3秒）收不到 Master 的心跳包，就认为 Master 挂了。
+&rsquo;   Backup 根据优先级（Priority）选举出新的 Master，接管 VIP。
+&rsquo;   一旦旧 Master 恢复，根据配置（抢占模式），它可能会重新夺回 VIP。</li>
+</ol>
+<h3 id="3-keepalived-基础知识">3. Keepalived 基础知识</h3>
+<p>Keepalived 主要有两个核心功能：</p>]]></description>
+</item>
+<item>
+    <title>Building a Keepalived &#43; Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)</title>
+    <link>http://localhost:1313/building-keepalived-nginx-dual-master-ha-cluster/</link>
+    <pubDate>Tue, 23 Dec 2025 00:00:00 &#43;0000</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/building-keepalived-nginx-dual-master-ha-cluster/</guid>
+    <description><![CDATA[<h1 id="building-a-keepalived--nginx-dual-master-ha-cluster-from-scratch-ubuntu-2404">Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)</h1>
+<blockquote>
+<p><strong>Preface</strong>:
+I recently grabbed a domain for just a dollar and decided to tinker with server high availability architectures.
+In a production environment, a single point of failure (SPOF) is a DevOps nightmare. Today, I&rsquo;m documenting how I used Keepalived to implement a <strong>Dual-Master (Active-Active)</strong> architecture.</p>
+<p><strong>Goal</strong>: Two servers acting as backups for each other. Normally, each handles one VIP (Virtual IP). If one server fails, the other instantly takes over all traffic!</p>]]></description>
+</item>
+<item>
+    <title>My First Post</title>
+    <link>http://localhost:1313/my-first-post/</link>
+    <pubDate>Mon, 22 Dec 2025 20:21:24 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/my-first-post/</guid>
+    <description><![CDATA[<h2 id="draft-false---一定要确保这里是-false如果是-true-网页上是不显示的">image:
+math: false
+license:
+hidden: false
+comments: true
+draft: false  &lt;&ndash; 一定要确保这里是 false，如果是 true 网页上是不显示的</h2>
+<h2 id="大家好">大家好</h2>
+<p>这是我用 Hugo + GitHub + Vercel 搭建的免费博客。</p>
+<h3></h3>
+<ol>
+<li>怎么配置 Hugo 环境</li>
+<li>怎么解决 GitHub 代理问题</li>
+<li>TOML 配置文件不能重复写 params</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>📅 2025-12-18 每日天气播报</title>
+    <link>http://localhost:1313/weather-2025-12-18/</link>
+    <pubDate>Thu, 18 Dec 2025 09:38:14 &#43;0800</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/weather-2025-12-18/</guid>
+    <description><![CDATA[<h2 id="-机器人自动播报">🤖 机器人自动播报</h2>
+<p><strong>北京时间</strong>：2025-12-18 09:38:14</p>
+<p><strong>今日天气</strong>：</p>
+<blockquote>
+<p>Beijing: 🌫  -1°C</p>
+</blockquote>
+<p><em>(本文章由 GitHub Actions 自动抓取并发布)</em></p>]]></description>
+</item>
+</channel>
+</rss>

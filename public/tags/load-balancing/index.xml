@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Load-Balancing on LoveIt</title>
+    <link>http://localhost:1313/tags/load-balancing/</link>
+    <description>Recent content in Load-Balancing on LoveIt</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/load-balancing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building a Keepalived &#43; Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)</title>
+      <link>http://localhost:1313/building-keepalived-nginx-dual-master-ha-cluster/</link>
+      <pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/building-keepalived-nginx-dual-master-ha-cluster/</guid>
+      <description>&lt;h1 id=&#34;building-a-keepalived--nginx-dual-master-ha-cluster-from-scratch-ubuntu-2404&#34;&gt;Building a Keepalived + Nginx Dual-Master HA Cluster from Scratch (Ubuntu 24.04)&lt;/h1&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Preface&lt;/strong&gt;:&#xA;I recently grabbed a domain for just a dollar and decided to tinker with server high availability architectures.&#xA;In a production environment, a single point of failure (SPOF) is a DevOps nightmare. Today, I&amp;rsquo;m documenting how I used Keepalived to implement a &lt;strong&gt;Dual-Master (Active-Active)&lt;/strong&gt; architecture.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Goal&lt;/strong&gt;: Two servers acting as backups for each other. Normally, each handles one VIP (Virtual IP). If one server fails, the other instantly takes over all traffic!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
